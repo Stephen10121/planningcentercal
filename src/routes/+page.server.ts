@@ -11,7 +11,7 @@ export async function load({ cookies }) {
         return redirect(301, "/login");
     }
 
-    if (password !== "test") {
+    if (password !== process.env.WEBSITE_PASSWORD) {
         return redirect(301, "/login");
     }
     return
