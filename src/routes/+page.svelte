@@ -16,6 +16,10 @@
     // export let data;
 </script>
 
+<svelte:head>
+    <title>Calendar</title>
+</svelte:head>
+
 <main>
     <Day day={currentDay} dayStr={currentDayStr} isToday />
     <Day day={nextDayDay} dayStr={nextDaydayStr} />
