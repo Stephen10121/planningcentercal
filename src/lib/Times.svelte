@@ -1,6 +1,4 @@
 <script lang="ts">
-    import Times from "./Times.svelte";
-
     export let time;
 
     const start_time = new Date(time.attributes.starts_at);

@@ -1,10 +1,20 @@
 import { getEvent, getEventTime } from "$lib/getEventTime";
+import { redirect } from "@sveltejs/kit";
 import { config } from "dotenv";
 
 config();
 
-export async function load() {
+export async function load({ cookies }) {
+    const password = cookies.get("password");
 
+    if (!password) {
+        return redirect(301, "/login");
+    }
+
+    if (password !== "test") {
+        return redirect(301, "/login");
+    }
+    return
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
     const date = new Date();
 
@@ -41,15 +51,21 @@ export async function load() {
                 const dateOfEvent = new Date(dataJSON.data[i].attributes.starts_at);
                 if (dateOfEvent.getFullYear() <= thirdYear && dateOfEvent.getMonth() + 1 <= thirdMonth && dateOfEvent.getDate() <= thirdDay) {
                     const eventTime = await getEventTime(dataJSON.data[i].id);
+                    const eventItself = await getEvent(dataJSON.data[i].id);
                 
                     if (eventTime.error) {
                         console.log("[error]", eventTime.error);
                     }
 
+                    if (eventItself.error) {
+                        console.log("[error]", eventItself.error);
+                    }
+
                     newData.push({
                         id: dataJSON.data[i].id,
                         instance: dataJSON.data[i],
-                        time: eventTime.eventTime
+                        time: eventTime.eventTime,
+                        event: eventItself.event
                     });
                 }
             }
