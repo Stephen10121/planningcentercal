@@ -1,8 +1,10 @@
 <script lang="ts">
-    import { DAYTOSTRING, isDateWithinRange, type EventData } from "$lib";
+    import { dateRangeOverlaps, DAYTOSTRING, type EventData } from "$lib";
     import Event from "./Event.svelte";
 
     export let day: Date;
+    let nextDay = new Date(day.getTime() + (24 * 60 * 60 * 1000) * 1);
+
     export let isToday: boolean = false;
     export let events: EventData[];
 
@@ -21,8 +23,8 @@
     </div>
     <div class="times">
         <div class="schedule">
-            {#each events as event (event.instanceId)}
-                {#if isDateWithinRange(new Date(event.startTime), new Date(event.endTime), day)}
+            {#each events as event, i (`${dayOfMonth}${i}${event.instanceId}`)}
+                {#if dateRangeOverlaps(day, nextDay, new Date(event.startTime), new Date(event.endTime))}
                     <Event data={event} currentDay={day} />
                 {/if}
             {/each}

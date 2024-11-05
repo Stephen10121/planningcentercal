@@ -22,7 +22,7 @@ export async function load({ cookies }) {
     const currentYear = date.getFullYear();
     const currentDay = date.getDate();
 
-    const nextThreeDays = new Date(date. setDate(date.getDate() + 3)); // Set the 3 back to 2 when in prod. This is just to test because there was no data.
+    const nextThreeDays = new Date(date. setDate(date.getDate() + 8)); // Set the 3 back to 2 when in prod. This is just to test because there was no data.
     const thirdMonth = nextThreeDays.getMonth() + 1;
     const thirdYear = nextThreeDays.getFullYear();
     const thirdDay = nextThreeDays.getDate();
