@@ -71,15 +71,23 @@ export async function load({ cookies }) {
                             });
                         }
                     }
+                    const name = eventItself.event.data.attributes.name;
 
+                    const colors: {[key: string]: string} = {
+                        "Youth Service": "#e8d4fb8C",
+                        "Morning Service": "#97e9b48C",
+                        "Bible Study": "#f1f3418C",
+                        "Rent prayers room N.Medvedeva": "#efb1b18C"
+                    }
 
                     newData.push({
                         instanceId: dataJSON.data[i].id,
                         startTime: dataJSON.data[i].attributes.starts_at,
                         endTime: eventTimeData[eventTimeData.length -1].endTime,
-                        name: eventItself.event.data.attributes.name,
+                        name,
                         room: dataJSON.data[i].attributes.location,
-                        times: eventTimeData
+                        times: eventTimeData,
+                        color: Object.keys(colors).includes(name) ? colors[name] : "#FBDCD48C"
                     });
                 }
             }

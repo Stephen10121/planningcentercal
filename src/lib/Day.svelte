@@ -64,7 +64,7 @@
         height: 100%;
         display: grid;
         grid-template-rows: 130px auto;
-        padding-top: 3rem;
+        padding-top: 10px;
     }
 
     section:not(.today) {

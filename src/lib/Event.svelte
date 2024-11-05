@@ -1,8 +1,6 @@
 <script lang="ts">
     import { MONTHTOSTRING, type EventData } from "$lib";
 
-    let color = "#FBDCD4";
-
     export let data: EventData;
     export let currentDay: Date;
     
@@ -11,8 +9,6 @@
 
     const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
     const passedHours = Math.abs(start.getTime() - currentDay.getTime()) / 36e5;
-
-    console.log(hours);
 
     const FIRST_DAY = currentDay.getDate() === start.getDate();
     const MULTI_DAY_EVENT = hours > 24;
@@ -26,17 +22,19 @@
     const endMinutesStr = String(end.getMinutes()).padStart(2, "0");
 </script>
 
-<div class="event" style="--start-hour:{!FIRST_DAY && MULTI_DAY_EVENT ? 0 : trueStartHour};--hours: {hours - (MULTI_DAY_EVENT ? passedHours : 0)};--color:{color};">
-    <div class="inner">
-        {#if MULTI_DAY_EVENT}
-            <p class="time">{MONTHTOSTRING[start.getMonth()]} {start.getDate()}, {startHourStr}:{startMinutesStr} - {MONTHTOSTRING[end.getMonth()]} {end.getDate()}, {endHourStr}:{endMinutesStr}</p>
-        {:else}
-            <p class="time">{startHourStr}:{startMinutesStr} -{endHourStr}:{endMinutesStr}</p>
-        {/if}
-        <p class="name">{data.name} {#if MULTI_DAY_EVENT && !FIRST_DAY}<span class="lighter">continued.</span>{/if}</p>
-        {#if MULTI_DAY_EVENT}
-            <p class="lighter">Multiple Day Event</p>
-        {/if}
+<div class="event" style="--start-hour:{!FIRST_DAY && MULTI_DAY_EVENT ? 0 : trueStartHour};--hours: {hours - (MULTI_DAY_EVENT ? passedHours : 0)};--color:{data.color};">
+    <div class="inner {hours - (MULTI_DAY_EVENT ? passedHours : 0) < 2 ? "small" : ""}">
+        <div class="stage1">
+            {#if MULTI_DAY_EVENT}
+                <p class="time">{MONTHTOSTRING[start.getMonth()]} {start.getDate()}, {startHourStr}:{startMinutesStr} - {MONTHTOSTRING[end.getMonth()]} {end.getDate()}, {endHourStr}:{endMinutesStr}</p>
+            {:else}
+                <p class="time">{startHourStr}:{startMinutesStr} -{endHourStr}:{endMinutesStr}</p>
+            {/if}
+            <p class="name">{data.name} {#if MULTI_DAY_EVENT && !FIRST_DAY}<span class="lighter">continued.</span>{/if}</p>
+            {#if MULTI_DAY_EVENT}
+                <p class="lighter">Multiple Day Event</p>
+            {/if}
+        </div>
     </div>
 </div>
 
@@ -47,7 +45,6 @@
         left: 20px;
         width: calc(100% - 40px);
         height: calc(calc(100% / 25 + 0.165%) * min(var(--hours), 24));
-        /* padding: 5px; */
     }
 
     .inner {
@@ -57,6 +54,23 @@
         border: 1px solid #0000002c;
         padding: 10px;
         border-radius: 3px;
+    }
+
+    .stage1 {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+    }
+
+    .inner.small {
+        display: flex;
+        align-items: center;
+    }
+
+    .inner.small .stage1 {
+        flex-direction: row;
+        align-items: center;
     }
 
     .time {
@@ -75,7 +89,6 @@
         font-size: 1rem;
         pointer-events: none;
         display: block;
-        margin-top: 5px;
     }
 
     .lighter {
@@ -84,6 +97,5 @@
         font-size: 0.8rem;
         font-weight: 600;
         pointer-events: none;
-        margin-top: 5px;
     }
 </style>

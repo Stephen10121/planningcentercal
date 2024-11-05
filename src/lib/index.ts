@@ -12,6 +12,7 @@ export type EventData = {
     endTime: string;
     name: string;
     room: string;
+    color: string;
     times: EventTimes[];
 }
 

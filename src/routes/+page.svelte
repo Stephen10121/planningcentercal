@@ -7,8 +7,6 @@
     const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 6).setHours(0, 0, 0, 0));
 
     export let data;
-
-    console.log(data);
 </script>
 
 <svelte:head>
