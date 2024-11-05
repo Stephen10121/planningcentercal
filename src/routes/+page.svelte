@@ -1,5 +1,8 @@
 <script lang="ts">
+    import Clock from "$lib/Clock.svelte";
     import Day from "$lib/Day.svelte";
+    import Event from "$lib/Event.svelte";
+
     const dayStrConvert = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const date = new Date();
 
@@ -13,7 +16,9 @@
     const nextThreeDays = new Date(date.setDate(date.getDate() + 1));
     const thirdDay = nextThreeDays.getDate();
     const thirdDayStr = dayStrConvert[nextThreeDays.getDay()];
-    // export let data;
+    export let data;
+
+    console.log(data);
 </script>
 
 <svelte:head>
@@ -21,10 +26,23 @@
 </svelte:head>
 
 <main>
-    <Day day={currentDay} dayStr={currentDayStr} isToday />
-    <Day day={nextDayDay} dayStr={nextDaydayStr} />
-    <Day day={thirdDay} dayStr={thirdDayStr} />
+    <Clock />
+    <Day day={currentDay} dayStr={currentDayStr} isToday>
+        <Event hours={5} />
+    </Day>
+    <Day day={nextDayDay} dayStr={nextDaydayStr}>
+        <Event hours={10} color="#BEE2D6" />
+    </Day>
+    <Day day={thirdDay} dayStr={thirdDayStr}>
+        <Event hours={6} />
+    </Day>
 </main>
+
+<!-- {#if data.newData}
+    {#each data.newData as event (event.id)}
+        {JSON.stringify(event)}
+    {/each}
+{/if} -->
 
 <style>
     :global(html) {
@@ -36,12 +54,7 @@
         height: 100%;
         background-color: #FCF7F4;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 70px 1fr 1fr 1fr;
+        padding: 10px;
     }
 </style>
-
-<!-- {#if data.newData}
-    {#each data.newData as event (event.id)}
-        <Event {event} />   
-    {/each}
-{/if} -->

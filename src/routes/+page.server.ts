@@ -1,3 +1,4 @@
+import type { EventData, EventTimes } from "$lib";
 import { getEvent, getEventTime } from "$lib/getEventTime";
 import { redirect } from "@sveltejs/kit";
 import { config } from "dotenv";
@@ -14,7 +15,6 @@ export async function load({ cookies }) {
     if (password !== process.env.WEBSITE_PASSWORD) {
         return redirect(301, "/login");
     }
-    return
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
     const date = new Date();
 
@@ -45,7 +45,7 @@ export async function load({ cookies }) {
 
         if (dataJSON["data"]) {
             console.log(`[server] Fetched events for ${currentYear}/${currentMonth}/${currentDay}.`);
-            const newData = [];
+            const newData: EventData[] = [];
 
             for (let i=0;i<dataJSON.data.length;i++) {
                 const dateOfEvent = new Date(dataJSON.data[i].attributes.starts_at);
@@ -61,11 +61,25 @@ export async function load({ cookies }) {
                         console.log("[error]", eventItself.error);
                     }
 
+                    const eventTimeData: EventTimes[] = [];
+                    if (eventTime.eventTime["data"]) {
+                        for (let i=0;i<eventTime.eventTime.data.length;i++) {
+                            eventTimeData.push({
+                                name: eventTime.eventTime.data[i].attributes.name,
+                                startTime: eventTime.eventTime.data[i].attributes.starts_at,
+                                endTime: eventTime.eventTime.data[i].attributes.ends_at
+                            });
+                        }
+                    }
+
+
                     newData.push({
-                        id: dataJSON.data[i].id,
-                        instance: dataJSON.data[i],
-                        time: eventTime.eventTime,
-                        event: eventItself.event
+                        instanceId: dataJSON.data[i].id,
+                        startTime: dataJSON.data[i].attributes.starts_at,
+                        endTime: eventTimeData[eventTimeData.length -1].endTime,
+                        name: eventItself.event.data.attributes.name,
+                        room: dataJSON.data[i].attributes.location,
+                        times: eventTimeData
                     });
                 }
             }

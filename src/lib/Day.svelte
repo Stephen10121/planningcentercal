@@ -4,8 +4,8 @@
     export let isToday: boolean = false;
 </script>
 
-<section>
-    <div class="day {isToday ? "today" : ""}">
+<section class="{isToday ? "today" : ""}">
+    <div class="day">
         <h2>{day}</h2>
         <p>{dayStr}</p>
         <div class="line">
@@ -14,16 +14,48 @@
             {/if}
         </div>
     </div>
+    <div class="times">
+        <div class="schedule">
+            <slot />
+        </div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+        <div class="timeLine"></div>
+    </div>
 </section>
 
 <style>
     section {
         width: 100%;
         height: 100%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: 130px auto;
         padding-top: 3rem;
+    }
+
+    section:not(.today) {
+        border-left: 1px dashed #b1a69e;
     }
 
     .day {
@@ -33,8 +65,30 @@
         gap: 10px;
     }
 
-    .day.today .line {
+    section.today .day .line {
         background-color: #000000;
+    }
+
+    .times {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .schedule {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0 20px;
+    }
+
+    .timeLine {
+        height: 1px;
+        width: 100%;
+        background-color: #E6D9D0;
     }
 
     .line {
@@ -63,8 +117,8 @@
         font-size: 3rem;
     }
 
-    .day.today h2,
-    .day.today p {
+    section.today .day h2,
+    section.today .day p {
         color: #131E3A;
     }
 
