@@ -1,3 +1,26 @@
+<script lang="ts">
+    import { onMount } from "svelte";
+
+    let hourStr = "00";
+    let minuteStr = "00";
+    let time = 0;
+
+    onMount(() => {
+        const timeIntervalCancel = setInterval(() => {
+            const today = new Date();
+            let hours = today.getHours();
+            let minutes = today.getMinutes();
+            hourStr = String(hours).padStart(2, "0");
+            minuteStr = String(minutes).padStart(2, "0");
+            time = hours + minutes / 60;
+        }, 100);
+
+        return () => {
+            clearInterval(timeIntervalCancel);
+        }
+    });
+</script>
+
 <section>
     <div></div>
     <div class="times">
@@ -52,6 +75,11 @@
         <div class="time"><p>11:00 PM</p></div>
         <div class="time"><p>12:00 AM</p></div> -->
     </div>
+    <div class="actualTime" style="--time: {time}">
+        <div>
+            <p>{hourStr}:{minuteStr}</p>
+        </div>
+    </div>
 </section>
 
 <style>
@@ -61,6 +89,31 @@
         display: grid;
         grid-template-rows: 130px auto;
         padding-top: 10px;
+    }
+
+    .actualTime {
+        position: fixed;
+        width: calc(100% - 60px);
+        height: 3px;
+        background-color: rgba(255, 0, 0, 0.315);
+        --l: calc((100% - 123px) / 25);
+        top: calc(var(--l) * var(--time, 1) + 149px);
+        left: 78px;
+        z-index: 200;
+    }
+
+    .actualTime div {
+        background-color: red;
+        padding: 3px;
+        border-radius: 3px;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(-100%, -50%);
+    }
+
+    .actualTime div p {
+        color: #ffffff;
     }
 
     .times {
@@ -81,7 +134,7 @@
     }
 
     p {
-        font-family: "Zona Pro";
+        font-family: "Zona Pro", monospace;
         font-weight: bold;
         color: #d4beaf;
         font-size: 0.7rem;

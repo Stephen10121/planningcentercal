@@ -28,7 +28,7 @@
             {#if MULTI_DAY_EVENT}
                 <p class="time">{MONTHTOSTRING[start.getMonth()]} {start.getDate()}, {startHourStr}:{startMinutesStr} - {MONTHTOSTRING[end.getMonth()]} {end.getDate()}, {endHourStr}:{endMinutesStr}</p>
             {:else}
-                <p class="time">{startHourStr}:{startMinutesStr} -{endHourStr}:{endMinutesStr}</p>
+                <p class="time">{startHourStr}:{startMinutesStr} - {endHourStr}:{endMinutesStr}</p>
             {/if}
             <p class="name">{data.name} {#if MULTI_DAY_EVENT && !FIRST_DAY}<span class="lighter">continued.</span>{/if}</p>
             {#if MULTI_DAY_EVENT}

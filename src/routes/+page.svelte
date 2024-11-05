@@ -2,9 +2,9 @@
     import Clock from "$lib/Clock.svelte";
     import Day from "$lib/Day.svelte";
 
-    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 4).setHours(0, 0, 0, 0));
-    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 5).setHours(0, 0, 0, 0));
-    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 6).setHours(0, 0, 0, 0));
+    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 3).setHours(0, 0, 0, 0));
+    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 4).setHours(0, 0, 0, 0));
+    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 5).setHours(0, 0, 0, 0));
 
     export let data;
 </script>
