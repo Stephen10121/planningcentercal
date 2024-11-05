@@ -1,22 +1,50 @@
 <script lang="ts">
-    export let hours: number;
-    export let color = "#FBDCD4";
+    import { MONTHTOSTRING, type EventData } from "$lib";
+
+    let color = "#FBDCD4";
+
+    export let data: EventData;
+    export let currentDay: Date;
+    
+    const start = new Date(data.startTime);
+    const end = new Date(data.endTime);
+
+    const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+    const passedHours = Math.abs(start.getTime() - currentDay.getTime()) / 36e5;
+
+    const FIRST_DAY = currentDay.getDate() === start.getDate();
+    const MULTI_DAY_EVENT = hours > 24;
+
+    const trueStartHour = start.getHours() + start.getMinutes() / 60;
+
+    const startHourStr = String(start.getHours()).padStart(2, "0");
+    const startMinutesStr = String(start.getMinutes()).padStart(2, "0");
+
+    const endHourStr = String(end.getHours()).padStart(2, "0");
+    const endMinutesStr = String(end.getMinutes()).padStart(2, "0");
 </script>
 
-<div class="event" style="--hours: {hours};--color:{color};">
+<div class="event" style="--start-hour:{!FIRST_DAY && MULTI_DAY_EVENT ? 0 : trueStartHour};--hours: {hours - passedHours};--color:{color};">
     <div class="inner">
-        <p class="time">1:00 AM-6:00 AM</p>
-        <p class="name">Morning Service</p>
+        {#if MULTI_DAY_EVENT}
+            <p class="time">{MONTHTOSTRING[start.getMonth()]} {start.getDate()}, {startHourStr}:{startMinutesStr} - {MONTHTOSTRING[end.getMonth()]} {end.getDate()}, {endHourStr}:{endMinutesStr}</p>
+        {:else}
+            <p class="time">{startHourStr}:{startMinutesStr} -{endHourStr}:{endMinutesStr}</p>
+        {/if}
+        <p class="name">{data.name} {#if MULTI_DAY_EVENT && !FIRST_DAY}<span class="lighter">continued.</span>{/if}</p>
+        {#if MULTI_DAY_EVENT}
+            <p class="lighter">Multiple Day Event</p>
+        {/if}
     </div>
 </div>
 
 <style>
     .event {
         position: absolute;
-        top: 0;
+        top: calc(calc(100% / 25 + 0.165%) * min(var(--start-hour), 24));;
         left: 20px;
         width: calc(100% - 40px);
-        height: calc(calc(100% / 24 + 0.2%) * var(--hours));
+        height: calc(calc(100% / 25 + 0.165%) * min(var(--hours), 24));
         padding: 5px;
     }
 
@@ -45,6 +73,15 @@
         font-size: 1rem;
         pointer-events: none;
         display: block;
+        margin-top: 5px;
+    }
+
+    .lighter {
+        font-family: "Zona Pro";
+        color: #7e7e7e;
+        font-size: 0.8rem;
+        font-weight: 600;
+        pointer-events: none;
         margin-top: 5px;
     }
 </style>

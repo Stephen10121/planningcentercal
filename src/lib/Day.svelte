@@ -1,13 +1,18 @@
 <script lang="ts">
-    export let day: number;
-    export let dayStr: string;
+    import { DAYTOSTRING, isDateWithinRange, type EventData } from "$lib";
+    import Event from "./Event.svelte";
+
+    export let day: Date;
     export let isToday: boolean = false;
+    export let events: EventData[];
+
+    const dayOfMonth = day.getDate();
 </script>
 
 <section class="{isToday ? "today" : ""}">
     <div class="day">
-        <h2>{day}</h2>
-        <p>{dayStr}</p>
+        <h2>{dayOfMonth}</h2>
+        <p>{DAYTOSTRING[day.getDay()]}</p>
         <div class="line">
             {#if isToday}
                 <div class="ball"></div>
@@ -16,8 +21,14 @@
     </div>
     <div class="times">
         <div class="schedule">
+            {#each events as event (event.instanceId)}
+                {#if isDateWithinRange(new Date(event.startTime), new Date(event.endTime), day)}
+                    <Event data={event} currentDay={day} />
+                {/if}
+            {/each}
             <slot />
         </div>
+        <div class="timeLine"></div>
         <div class="timeLine"></div>
         <div class="timeLine"></div>
         <div class="timeLine"></div>
@@ -83,6 +94,7 @@
         width: 100%;
         height: 100%;
         padding: 0 20px;
+        overflow: hidden;
     }
 
     .timeLine {

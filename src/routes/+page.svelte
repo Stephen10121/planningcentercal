@@ -1,24 +1,12 @@
 <script lang="ts">
     import Clock from "$lib/Clock.svelte";
     import Day from "$lib/Day.svelte";
-    import Event from "$lib/Event.svelte";
 
-    const dayStrConvert = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const date = new Date();
+    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 3).setHours(0, 0, 0, 0));
+    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 4).setHours(0, 0, 0, 0));
+    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 5).setHours(0, 0, 0, 0));
 
-    const currentDay = date.getDate();
-    const currentDayStr = dayStrConvert[date.getDay()];
-
-    const nextDay = new Date(date.setDate(date.getDate() + 1));
-    const nextDayDay = nextDay.getDate();
-    const nextDaydayStr = dayStrConvert[nextDay.getDay()];
-
-    const nextThreeDays = new Date(date.setDate(date.getDate() + 1));
-    const thirdDay = nextThreeDays.getDate();
-    const thirdDayStr = dayStrConvert[nextThreeDays.getDay()];
     export let data;
-
-    console.log(data);
 </script>
 
 <svelte:head>
@@ -26,23 +14,13 @@
 </svelte:head>
 
 <main>
-    <Clock />
-    <Day day={currentDay} dayStr={currentDayStr} isToday>
-        <Event hours={5} />
-    </Day>
-    <Day day={nextDayDay} dayStr={nextDaydayStr}>
-        <Event hours={10} color="#BEE2D6" />
-    </Day>
-    <Day day={thirdDay} dayStr={thirdDayStr}>
-        <Event hours={6} />
-    </Day>
+    {#if data.newData}
+        <Clock />
+        <Day events={data.newData} day={today} isToday />
+        <Day events={data.newData} day={tomorrow} />
+        <Day events={data.newData} day={thirdDay} />
+    {/if}
 </main>
-
-<!-- {#if data.newData}
-    {#each data.newData as event (event.id)}
-        {JSON.stringify(event)}
-    {/each}
-{/if} -->
 
 <style>
     :global(html) {
