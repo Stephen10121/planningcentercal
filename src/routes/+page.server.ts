@@ -91,7 +91,7 @@ export async function load({ cookies }) {
                         startTime: dataJSON.data[i].attributes.starts_at,
                         endTime: eventTimeData[eventTimeData.length -1].endTime,
                         name,
-                        room: dataJSON.data[i].attributes.location,
+                        location: dataJSON.data[i].attributes.location,
                         times: eventTimeData,
                         color: Object.keys(colors).includes(name) ? colors[name] : "#FBDCD48C",
                         resources: resources.resources,

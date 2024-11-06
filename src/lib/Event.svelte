@@ -21,7 +21,7 @@
     const endHourStr = String(end.getHours()).padStart(2, "0");
     const endMinutesStr = String(end.getMinutes()).padStart(2, "0");
 
-    console.log(data.room);
+    console.log(data.tags);
 </script>
 
 <div class="event" style="--start-hour:{!FIRST_DAY && MULTI_DAY_EVENT ? 0 : trueStartHour};--hours: {hours - (MULTI_DAY_EVENT ? passedHours : 0)};--color:{data.color};">

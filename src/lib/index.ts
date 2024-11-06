@@ -24,7 +24,7 @@ export type EventData = {
     startTime: string;
     endTime: string;
     name: string;
-    room: string;
+    location: string | null;
     color: string;
     times: EventTimes[];
     resources: Resourses[] | null;
