@@ -95,15 +95,15 @@
         position: fixed;
         width: calc(100% - 60px);
         height: 3px;
-        background-color: rgba(255, 0, 0, 0.315);
+        background-color: #f3202067;
         --l: calc((100% - 123px) / 25);
-        top: calc(var(--l) * var(--time, 1) + 149px);
+        top: calc(var(--l) * var(--time, 1) + 147px);
         left: 78px;
         z-index: 200;
     }
 
     .actualTime div {
-        background-color: red;
+        background-color: #f32020;
         padding: 3px;
         border-radius: 3px;
         position: absolute;
@@ -134,10 +134,12 @@
     }
 
     p {
-        font-family: "Zona Pro", monospace;
+        font-family: "Martian Mono", monospace;
+        font-optical-sizing: auto;
+        font-weight: 600;
         font-weight: bold;
         color: #d4beaf;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         pointer-events: none;
         display: block;
     }

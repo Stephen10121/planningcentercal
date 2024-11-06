@@ -6,6 +6,13 @@ export type EventTimes = {
     endTime: string;
 }
 
+export type Resourses = {
+    id: string;
+    kind: "Resource" | "Room";
+    name: string;
+    path_name: string | null
+}
+
 export type EventData = {
     instanceId: string
     startTime: string;
@@ -14,6 +21,7 @@ export type EventData = {
     room: string;
     color: string;
     times: EventTimes[];
+    resources: Resourses[] | null;
 }
 
 export const DAYTOSTRING = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

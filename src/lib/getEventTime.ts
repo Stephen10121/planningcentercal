@@ -1,6 +1,38 @@
 import { config } from "dotenv";
+import resources from "../../resources.json";
+import type { Resourses } from "$lib";
 
 config();
+
+export async function getEvent(id: string) {
+    const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
+    
+    try {
+        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances/${id}/event`, {
+            headers: { 'Authorization': `Basic ${credentials}` }
+        });
+    
+        if (!data.ok) {
+            console.error('[error]', data);
+            return {
+                event: null,
+                error: "Failed to fetch event."
+            }
+        }
+    
+        const dataJSON = await data.json();
+    
+        console.log(`[server] Fetched event for ${id}.`);
+    
+        return { event: dataJSON }
+    } catch (error) {
+        console.error('[error]', error);
+        return {
+            event: null,
+            error: "Failed to fetch event."
+        }
+    }
+}
 
 export async function getEventTime(id: string) {
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
@@ -34,34 +66,81 @@ export async function getEventTime(id: string) {
     }
 }
 
-export async function getEvent(id: string) {
+export async function getResourceBookings(id: string) {
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
     
     try {
-        // Pass an event instance id. NOT an event id. Those are different.
-        // const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/events/14275214/event_instances`, {
-        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances/${id}/event`, {
+        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances/${id}/resource_bookings`, {
             headers: { 'Authorization': `Basic ${credentials}` }
         });
     
         if (!data.ok) {
             console.error('[error]', data);
             return {
-                event: null,
-                error: "Failed to fetch event."
+                resources: null,
+                error: "Failed to fetch resources."
             }
         }
     
         const dataJSON = await data.json();
     
-        console.log(`[server] Fetched event for ${id}.`);
+        console.log(`[server] Fetched resources for ${id}.`);
+
+        const resourcesForEvent: Resourses[] = []; 
+
+        if (dataJSON["data"]) {
+            for (let i=0;i<dataJSON.data.length;i++) {
+                const resourceId = dataJSON.data[i].relationships.resource.data.id;
+                for (let b=0;b<resources.length;b++) {
+                    if (resourceId === resources[b].id) {
+                        resourcesForEvent.push({
+                            id: resourceId,
+                            name: resources[b].attributes.name,
+                            path_name: resources[b].attributes.path_name,
+                            kind: resources[b].attributes.kind as "Resource" | "Room"
+                        });
+                    }
+                }
+            }
+        }
     
-        return { event: dataJSON }
+        return { resources: resourcesForEvent }
     } catch (error) {
         console.error('[error]', error);
         return {
-            event: null,
-            error: "Failed to fetch event."
+            resources: null,
+            error: "Failed to resources."
+        }
+    }
+}
+
+export async function getTags(id: string) {
+    const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
+    
+    try {
+        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances/${id}/tags`, {
+            headers: { 'Authorization': `Basic ${credentials}` }
+        });
+    
+        if (!data.ok) {
+            console.error('[error]', data);
+            return {
+                tags: null,
+                error: "Failed to fetch tags."
+            }
+        }
+    
+        const dataJSON = await data.json();
+    
+        console.log(`[server] Fetched tags for ${id}.`);
+        console.log("tags", dataJSON);
+    
+        return { tags: null }
+    } catch (error) {
+        console.error('[error]', error);
+        return {
+            tags: null,
+            error: "Failed to tags."
         }
     }
 }

@@ -1,5 +1,5 @@
 import type { EventData, EventTimes } from "$lib";
-import { getEvent, getEventTime } from "$lib/getEventTime";
+import { getEvent, getEventTime, getResourceBookings, getTags } from "$lib/getEventTime";
 import { redirect } from "@sveltejs/kit";
 import { config } from "dotenv";
 
@@ -50,15 +50,21 @@ export async function load({ cookies }) {
             for (let i=0;i<dataJSON.data.length;i++) {
                 const dateOfEvent = new Date(dataJSON.data[i].attributes.starts_at);
                 if (dateOfEvent.getFullYear() <= thirdYear && dateOfEvent.getMonth() + 1 <= thirdMonth && dateOfEvent.getDate() <= thirdDay) {
-                    const eventTime = await getEventTime(dataJSON.data[i].id);
-                    const eventItself = await getEvent(dataJSON.data[i].id);
+                    const instanceId = dataJSON.data[i].id;
+
+                    const eventItself = await getEvent(instanceId);
+                    const eventTime = await getEventTime(instanceId);
+                    const resources = await getResourceBookings(instanceId);
+                    const tags = await getTags(instanceId);
                 
                     if (eventTime.error) {
                         console.log("[error]", eventTime.error);
+                        continue;
                     }
 
                     if (eventItself.error) {
                         console.log("[error]", eventItself.error);
+                        continue;
                     }
 
                     const eventTimeData: EventTimes[] = [];
@@ -87,7 +93,8 @@ export async function load({ cookies }) {
                         name,
                         room: dataJSON.data[i].attributes.location,
                         times: eventTimeData,
-                        color: Object.keys(colors).includes(name) ? colors[name] : "#FBDCD48C"
+                        color: Object.keys(colors).includes(name) ? colors[name] : "#FBDCD48C",
+                        resources: resources.resources
                     });
                 }
             }
