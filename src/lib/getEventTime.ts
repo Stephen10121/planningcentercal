@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import resources from "../../resources.json";
-import type { Resourses, Tag } from "$lib";
+import type { ResourseType, Tag } from "$lib";
 
 config();
 
@@ -86,7 +86,7 @@ export async function getResourceBookings(id: string) {
     
         console.log(`[server] Fetched resources for ${id}.`);
 
-        const resourcesForEvent: Resourses[] = []; 
+        const resourcesForEvent: ResourseType[] = []; 
 
         if (dataJSON["data"]) {
             for (let i=0;i<dataJSON.data.length;i++) {

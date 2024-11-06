@@ -6,7 +6,7 @@ export type EventTimes = {
     endTime: string;
 }
 
-export type Resourses = {
+export type ResourseType = {
     id: string;
     kind: "Resource" | "Room";
     name: string;
@@ -27,7 +27,7 @@ export type EventData = {
     location: string | null;
     color: string;
     times: EventTimes[];
-    resources: Resourses[] | null;
+    resources: ResourseType[] | null;
     tags: Tag[] | null;
 }
 

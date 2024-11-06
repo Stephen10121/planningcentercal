@@ -1,5 +1,6 @@
 <script lang="ts">
     import { MONTHTOSTRING, type EventData } from "$lib";
+    import Resource from "./Resource.svelte";
     import Tag from "./Tag.svelte";
 
     export let data: EventData;
@@ -40,6 +41,13 @@
             {#if data.tags}
                 {#each data.tags as tag}
                     <Tag name={tag.name} color={tag.color} />
+                {/each}
+            {/if}
+        </div>
+        <div class="resources">
+            {#if data.resources}
+                {#each data.resources as resource}
+                    <Resource {resource} />
                 {/each}
             {/if}
         </div>
@@ -114,5 +122,13 @@
         position: absolute;
         right: 5px;
         top: 5px;
+    }
+
+    .resources {
+        display: flex;
+        gap: 2px;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 5px;
     }
 </style>
