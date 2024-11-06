@@ -13,6 +13,12 @@ export type Resourses = {
     path_name: string | null
 }
 
+export type Tag = {
+    color: string;
+    name: string;
+    id: string;
+}
+
 export type EventData = {
     instanceId: string
     startTime: string;
@@ -22,6 +28,7 @@ export type EventData = {
     color: string;
     times: EventTimes[];
     resources: Resourses[] | null;
+    tags: Tag[] | null;
 }
 
 export const DAYTOSTRING = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

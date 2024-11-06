@@ -94,7 +94,8 @@ export async function load({ cookies }) {
                         room: dataJSON.data[i].attributes.location,
                         times: eventTimeData,
                         color: Object.keys(colors).includes(name) ? colors[name] : "#FBDCD48C",
-                        resources: resources.resources
+                        resources: resources.resources,
+                        tags: tags.tags
                     });
                 }
             }

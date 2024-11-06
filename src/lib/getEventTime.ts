@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import resources from "../../resources.json";
-import type { Resourses } from "$lib";
+import type { Resourses, Tag } from "$lib";
 
 config();
 
@@ -133,9 +133,22 @@ export async function getTags(id: string) {
         const dataJSON = await data.json();
     
         console.log(`[server] Fetched tags for ${id}.`);
-        console.log("tags", dataJSON);
-    
-        return { tags: null }
+
+        const gotTags: Tag[] = [];
+
+        if (dataJSON["data"]) {
+            for (let i=0;i<dataJSON.data.length;i++) {
+                gotTags.push({
+                    id: dataJSON.data[i].id,
+                    color: dataJSON.data[i].attributes.color,
+                    name: dataJSON.data[i].attributes.name
+                });
+            }
+        }
+
+        return {
+            tags: gotTags
+        }
     } catch (error) {
         console.error('[error]', error);
         return {
