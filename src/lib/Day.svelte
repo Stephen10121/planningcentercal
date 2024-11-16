@@ -13,48 +13,17 @@
 
 <section class="{isToday ? "today" : ""}">
     <div class="day">
-        <h2>{dayOfMonth}</h2>
         <p>{DAYTOSTRING[day.getDay()]}</p>
-        <div class="line">
-            {#if isToday}
-                <div class="ball"></div>
-            {/if}
+        <div>
+            <h2>{dayOfMonth}</h2>
         </div>
     </div>
     <div class="times">
-        <div class="schedule">
-            {#each events as event, i (`${dayOfMonth}${i}${event.instanceId}`)}
-                {#if dateRangeOverlaps(day, nextDay, new Date(event.startTime), new Date(event.endTime))}
-                    <Event data={event} currentDay={day} />
-                {/if}
-            {/each}
-            <slot />
-        </div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
-        <div class="timeLine"></div>
+        {#each events as event, i (`${dayOfMonth}${i}${event.instanceId}`)}
+            {#if dateRangeOverlaps(day, nextDay, new Date(event.startTime), new Date(event.endTime))}
+                <Event data={event} currentDay={day} />
+            {/if}
+        {/each}
     </div>
 </section>
 
@@ -64,82 +33,61 @@
         height: 100%;
         display: grid;
         grid-template-rows: 130px auto;
-        padding-top: 10px;
     }
 
     section:not(.today) {
-        border-left: 1px dashed #b1a69e;
+        border-left: 1px dashed #2F3135;
     }
 
     .day {
+        padding-top: 10px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 10px;
-    }
-
-    section.today .day .line {
-        background-color: #000000;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        background-color: #2C2E2F;
     }
 
     .times {
         width: 100%;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-    }
-
-    .schedule {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        padding: 0 20px;
+        padding: 15px 20px 0 20px;
         overflow: hidden;
-    }
-
-    .timeLine {
-        height: 1px;
-        width: 100%;
-        background-color: #E6D9D0;
-    }
-
-    .line {
-        width: 2px;
-        height: 20px;
-        background-color: rgb(134, 134, 134);
-        position: relative;
-    }
-
-    .ball {
-        background-color: #FF5454;
-        width: 5px;
-        height: 5px;
-        border-radius: 100%;
-        outline: 4px solid #FCF7F4;
-        position: absolute;
-        bottom: 3px;
-        left: 50%;
-        transform: translate(-50%);
     }
 
     h2 {
         font-family: "Zona Pro";
         font-weight: bold;
-        color: #DDCDC2;
+        color: #ffffff;
         font-size: 3rem;
     }
 
-    section.today .day h2,
+    .day div {
+        padding: 10px;
+        border-radius: 100%;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.today .day div {
+        background-color: #8AB4F4;
+    }
+
+    section.today .day h2 {
+        color: #000000;
+    }
+
     section.today .day p {
-        color: #131E3A;
+        color: #8AB4F4;
     }
 
     p {
         font-family: "Zona Pro";
         font-weight: bold;
-        color: #DDCDC2;
+        color: #ffffff;
         font-size: 1.5rem;
     }
 </style>

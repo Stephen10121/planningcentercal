@@ -4,7 +4,7 @@
     export let resource: ResourseType;
 </script>
 
-<p><span>{resource.kind}:</span> {#if resource.path_name}{resource.path_name}/{/if}{resource.name}</p>
+<p><span>{resource.kind}:</span> {#if resource.path_name}{resource.path_name}\\{/if}{resource.name}</p>
 
 <style>
     p {
@@ -13,9 +13,11 @@
         font-size: 0.7rem;
         font-weight: 600;
         display: inline;
+        margin-left: 5px;
     }
 
     span {
-        color: #696969;
+        color: #494949;
+        font-size: 0.65rem;
     }
 </style>
