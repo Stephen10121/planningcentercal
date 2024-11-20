@@ -16,20 +16,25 @@ export async function load({ cookies }) {
         return redirect(301, "/login");
     }
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
-    const date = new Date();
+    const date = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
+
+    const back3days = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * -2).setHours(0, 0, 0, 0));
+    const back3daysMonth = back3days.getMonth() + 1;
+    const back3daysYear = back3days.getFullYear();
+    const back3daysDay = back3days.getDate();
 
     const currentMonth = date.getMonth() + 1;
     const currentYear = date.getFullYear();
     const currentDay = date.getDate();
 
-    const nextThreeDays = new Date(date. setDate(date.getDate() + 8)); // Set the 3 back to 2 when in prod. This is just to test because there was no data.
+    const nextThreeDays = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
     const thirdMonth = nextThreeDays.getMonth() + 1;
     const thirdYear = nextThreeDays.getFullYear();
     const thirdDay = nextThreeDays.getDate();
 
 
     try {
-        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances?where[starts_at][gt]=${currentYear}-${currentMonth}-${currentDay}`, {
+        const data = await fetch(`https://api.planningcenteronline.com/calendar/v2/event_instances?where[starts_at][gt]=${back3daysYear}-${back3daysMonth}-${back3daysDay}`, {
             headers: { 'Authorization': `Basic ${credentials}` }
         });
 

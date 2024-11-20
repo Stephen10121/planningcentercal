@@ -36,7 +36,7 @@
     }
 
     section:not(.today) {
-        border-left: 1px dashed #2F3135;
+        border-left: 1px dashed #202020;
     }
 
     .day {
@@ -46,7 +46,8 @@
         justify-content: center;
         flex-direction: column;
         gap: 5px;
-        background-color: #2C2E2F;
+        background-color: #212121;
+        box-shadow: 0px 8px 18px -18px rgb(0, 0, 0);
     }
 
     .times {

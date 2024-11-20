@@ -21,8 +21,6 @@
     const endMinutesStr = String(end.getMinutes()).padStart(2, "0");
 </script>
 
-{@debug data}
-
 <div class="event">
     <div class="inner">
         <div class="tags">
@@ -62,17 +60,18 @@
     .inner {
         width: 100%;
         height: 100%;
-        background-color: #2D9FD6;
+        background-color: #424242;
         border: 1px solid #0000002c;
         padding: 10px 10px 10px 10px;
         border-radius: 3px;
         position: relative;
         isolation: isolate;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     }
 
     .time {
         font-family: sans-serif, monospace;
-        color: #000000;
+        color: #fdfdfd;
         font-weight: 500;
         font-size: 0.8rem;
         pointer-events: none;
@@ -88,7 +87,7 @@
 
     .name {
         font-family: sans-serif;
-        color: #000000;
+        color: #8AB4F4;
         font-weight: 700;
         font-size: 1.05rem;
         pointer-events: none;
@@ -97,16 +96,16 @@
 
     .lighter {
         font-family: "Zona Pro";
-        color: #7e7e7e;
+        color: #dddbdb;
         font-size: 0.8rem;
         font-weight: 600;
         pointer-events: none;
-        margin-left: 22px;
+        margin-left: 5px;
     }
 
     .cont {
         font-family: "Zona Pro";
-        color: #7e7e7e;
+        color: #dddbdb;
         font-size: 0.8rem;
         font-weight: 600;
         pointer-events: none;

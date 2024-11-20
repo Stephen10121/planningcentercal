@@ -1,10 +1,9 @@
 <script lang="ts">
-    import Clock from "$lib/Clock.svelte";
     import Day from "$lib/Day.svelte";
 
-    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
-    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 3).setHours(0, 0, 0, 0));
-    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 4).setHours(0, 0, 0, 0));
+    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
+    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
+    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
 
     export let data;
 </script>
@@ -28,7 +27,7 @@
     }
 
     :global(html:has(.darkMode)) {
-        background-color: #1F2125;
+        background-color: #303030;
     }
 
     main {
@@ -40,6 +39,6 @@
     }
 
     :global(html:has(.darkMode) main) {
-        background-color: #1F2125;
+        background-color: #303030;
     }
 </style>
