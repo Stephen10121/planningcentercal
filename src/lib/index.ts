@@ -20,7 +20,7 @@ export type Tag = {
 }
 
 export type EventData = {
-    instanceId: string
+    instanceId: string;
     startTime: string;
     endTime: string;
     name: string;
