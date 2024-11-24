@@ -3,7 +3,7 @@
     import Event from "./Event.svelte";
 
     export let day: Date;
-    let nextDay = new Date(day.getTime() + (24 * 60 * 60 * 999) * 1);
+    $: nextDay = new Date(day.getTime() + (24 * 60 * 60 * 999) * 1);
 
     export let isToday: boolean = false;
     export let events: EventData[];
