@@ -1,0 +1,25 @@
+name: Docker Build For Planning CenterCal Frontend
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Check the code
+        uses: actions/checkout@v1
+      -
+        name: Push code
+        run: |
+            echo "${{ secrets.DOCKERPW }}" | docker login -u "stephen10121" --password-stdin
+            docker build -t stephen10121/planningcentercal:1.${{ github.run_number }} .
+            docker tag stephen10121/planningcentercal:1.${{ github.run_number }} stephen10121/planningcentercal:prod
+            docker tag stephen10121/planningcentercal:1.${{ github.run_number }} stephen10121/planningcentercal:1.${{ github.run_number }}
+            docker image ls
+            docker image push stephen10121/planningcentercal:prod
+            docker image push stephen10121/planningcentercal:1.${{ github.run_number }}
