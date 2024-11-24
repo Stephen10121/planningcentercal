@@ -2,6 +2,7 @@
     import { MONTHTOSTRING, type EventData } from "$lib";
     import Resource from "./Resource.svelte";
     import Tag from "./Tag.svelte";
+    import Time from "./Time.svelte";
 
     export let data: EventData;
     export let currentDay: Date;
@@ -41,13 +42,21 @@
                 <p class="lighter">Multi-Day Event</p>
             {/if}
         </div>
-        <div class="resources">
-            {#if data.resources}
+        {#if data.resources}
+            <div class="resources">
                 {#each data.resources as resource}
                     <Resource {resource} />
                 {/each}
-            {/if}
-        </div>
+            </div>
+        {/if}
+        {#if data.times.length > 1}
+            <p class="timeTitle">Times:</p>
+            <div class="times">
+                {#each data.times as time}
+                    <Time {time} eventName={data.name} />
+                {/each}
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -119,11 +128,27 @@
         top: 5px;
     }
 
-    .resources {
+    .resources,
+    .times {
         display: flex;
         gap: 2px;
         flex-direction: column;
         gap: 5px;
+        margin-top: 5px;
+    }
+
+    .times {
+        margin-left: 10px;
+    }
+
+    .timeTitle {
+        font-family: "Zona Pro";
+        color: #bdbdbd;
+        font-size: 0.65rem;
+        font-weight: 600;
+        display: inline;
+        margin-left: 5px;
+        display: block;
         margin-top: 5px;
     }
 </style>

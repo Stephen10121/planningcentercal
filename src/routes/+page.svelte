@@ -1,11 +1,29 @@
 <script lang="ts">
+    import { invalidateAll } from "$app/navigation";
     import Day from "$lib/Day.svelte";
+    import { onMount } from "svelte";
 
-    const today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
-    const tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
-    const thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
+    let today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
+    let tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
+    let thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
 
     export let data;
+
+    function updatePage() {
+        console.log("Updating Page.");
+        today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
+        tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
+        thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
+
+        invalidateAll();
+    }
+
+    onMount(() => {
+        const updater = setInterval(updatePage, 20000);
+        return () => {
+            clearInterval(updater);
+        }
+    });
 </script>
 
 <svelte:head>
