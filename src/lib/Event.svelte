@@ -24,13 +24,13 @@
 
 <div class="event">
     <div class="inner">
-        <div class="tags">
-            {#if data.tags}
+        {#if data.tags}
+            <div class="tags">
                 {#each data.tags as tag}
                     <Tag name={tag.name} color={tag.color} />
                 {/each}
-            {/if}
-        </div>
+            </div>
+        {/if}
         <div class="stage1">
             <p class="name">{data.name} {#if MULTI_DAY_EVENT && !FIRST_DAY}<span class="cont">continued.</span>{/if}</p>
             {#if MULTI_DAY_EVENT}
@@ -122,7 +122,9 @@
 
     .tags {
         display: flex;
-        gap: 2px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 3px;
         position: absolute;
         right: 5px;
         top: 5px;
