@@ -82,7 +82,7 @@
         font-family: sans-serif, monospace;
         color: #fdfdfd;
         font-weight: 500;
-        font-size: clamp(0.6rem, 0rem + 1.4vw, 0.8rem);
+        font-size: clamp(0.8rem, 0rem + 1.4vw, 1rem);
         pointer-events: none;
         margin-top: -3px;
     }
@@ -99,7 +99,7 @@
         font-family: sans-serif;
         color: #8AB4F4;
         font-weight: 700;
-        font-size: clamp(0.7rem, 0rem + 1.4vw, 1.05rem);
+        font-size: clamp(0.9rem, 0rem + 1.4vw, 1.25rem);
         pointer-events: none;
         display: block;
     }

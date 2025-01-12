@@ -10,7 +10,7 @@
     p {
         font-family: "Zona Pro";
         color: #ffffff;
-        font-size: 0.7rem;
+        font-size: 1rem;
         font-weight: 600;
         display: inline;
         margin-left: 5px;
@@ -18,6 +18,6 @@
 
     span {
         color: #bdbdbd;
-        font-size: 0.65rem;
+        font-size: 0.95rem;
     }
 </style>

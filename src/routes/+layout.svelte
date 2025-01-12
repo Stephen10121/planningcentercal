@@ -11,7 +11,7 @@
     
     import { Toaster } from "$lib/components/ui/sonner";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
-    import { loginOrRegisterDiologOpen, loginSignupValue } from "$lib/store";
+    import { page } from "$app/stores";
 
     export let data;
 
@@ -38,6 +38,7 @@
 
 <svelte:window on:scroll={scrolling} />
 
+{#if $page.url.pathname !== "/dashboard"}
 <header class="{cl} border-b flex justify-between items-center w-screen px-32 py-5 fixed top-0 left-0 z-20 bg-white dark:bg-background">
     <section class="flex item gap-2 items-center">
         {#if !data.user}
@@ -142,6 +143,7 @@
         {/if}
     </section>
 </header>
+{/if}
 <Toaster />
 <ModeWatcher />
 

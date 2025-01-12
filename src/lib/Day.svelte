@@ -32,7 +32,7 @@
         width: 100%;
         height: 100%;
         display: grid;
-        grid-template-rows: 130px auto;
+        grid-template-rows: 80px auto;
     }
 
     section:not(.today) {
@@ -40,11 +40,9 @@
     }
 
     .day {
-        padding-top: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
         gap: 5px;
         background-color: #212121;
         box-shadow: 0px 8px 18px -18px rgb(0, 0, 0);
@@ -61,7 +59,12 @@
         font-family: "Zona Pro";
         font-weight: bold;
         color: #ffffff;
-        font-size: 3rem;
+        font-size: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .day div {
