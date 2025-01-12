@@ -1,11 +1,13 @@
 import { redirect } from "@sveltejs/kit";
-import { WEBSITE_PASSWORD } from '$env/static/private';
+import { config } from "dotenv";
+
+config();
 
 export function load({ cookies }) {
     const password = cookies.get("password");
 
     if (password) {
-        if (password === WEBSITE_PASSWORD) {
+        if (password === process.env.WEBSITE_PASSWORD) {
             return redirect(301, "/");
         }
     }

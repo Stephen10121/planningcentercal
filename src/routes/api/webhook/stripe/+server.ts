@@ -1,16 +1,18 @@
 import { plans } from "$lib/utils";
 import { json } from "@sveltejs/kit";
 import Stripe from "stripe";
-import { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } from '$env/static/private';
+import { config } from "dotenv";
+
+config();
 
 export async function POST({ request, locals }) {
-    if (!STRIPE_SECRET_KEY || !STRIPE_WEBHOOK_SECRET) {
+    if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
         console.error("STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET env var is not set.");
         return json({msg: "not ok"}, { status: 500 });
     }
 
-    const stripe = new Stripe(STRIPE_SECRET_KEY);
-    const webhookSecret = STRIPE_WEBHOOK_SECRET;
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     const body = await request.text();
     const signature = request.headers.get('stripe-signature') || "";

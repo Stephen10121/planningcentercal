@@ -1,5 +1,7 @@
 import type { EventData } from "$lib";
-import { APP_ID, APP_SECRET } from '$env/static/private';
+import { config } from "dotenv";
+
+config();
 
 export async function load({ parent }) {
     await parent();
@@ -13,7 +15,7 @@ export async function load({ parent }) {
         // return redirect(301, "/login");
     // }
 
-    const credentials = btoa(`${APP_ID}:${APP_SECRET}`);
+    const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
 
     try {
         const data = await fetch(`${import.meta.env.VITE_PB_URL}/events`, {
