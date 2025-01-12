@@ -1,8 +1,11 @@
 import { serializeNonPOJOs } from "$lib/utils";
 import PocketBase from "pocketbase";
+import { config } from "dotenv";
+
+config();
 
 export async function handle ({ event, resolve }) {
-    event.locals.pb = new PocketBase(import.meta.env.VITE_PB_URL);
+    event.locals.pb = new PocketBase(process.env.VITE_PB_URL);
     event.locals.pb.authStore.clear();
 
     const authCookie = event.cookies.get("pb_auth");
