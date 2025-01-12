@@ -1,3 +1,4 @@
+import { dev } from "$app/environment";
 import { json, redirect } from "@sveltejs/kit";
 
 export async function GET({ locals, url, cookies }) {
@@ -8,7 +9,7 @@ export async function GET({ locals, url, cookies }) {
         return redirect(303, "/");
     }
 
-    const redirectURL = `${url.origin}/oath`;
+    const redirectURL = dev ? `${url.origin}/oath` : "https://planningcenter.stephengruzin.dev/oath";
     const state = url.searchParams.get("state");
     const code = url.searchParams.get("code");
 
@@ -38,7 +39,7 @@ export async function GET({ locals, url, cookies }) {
         console.log("Returned state does not match expected state.");
         return redirect(303, "/");
     }
-    console.log({providerName: provider.name, code, expectedVerifier, redirectURL});
+    
     try {
         await locals.pb.collection("users").authWithOAuth2Code(provider.name, code, expectedVerifier, redirectURL, {
             name: "New User",
