@@ -1,45 +1,43 @@
-import type { EventData } from "$lib";
 import { redirect } from "@sveltejs/kit";
-import { config } from "dotenv";
+import { WEBSITE_PASSWORD } from '$env/static/private';
 
-config();
-
-export async function load({ cookies }) {
+export function load({ cookies }) {
     const password = cookies.get("password");
 
-    if (!password) {
-        return redirect(301, "/login");
+    if (password) {
+        if (password === WEBSITE_PASSWORD) {
+            return redirect(301, "/");
+        }
     }
 
-    if (password !== process.env.WEBSITE_PASSWORD) {
-        return redirect(301, "/login");
-    }
+} 
 
-    const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
+export const actions = {
+    default: async ({ cookies, url, locals }) => {
+        locals.pb.authStore.clear();
+        const authMethods = await locals.pb.collection('users').listAuthMethods();
 
-    try {
-        const data = await fetch(`https://calapi.stephengruzin.dev/events`, {
-            headers: { 'Authorization': `Basic ${credentials}` }
-        });
-
-        if (!data.ok) {
-            console.error('[error]', data);
+        if (!authMethods.oauth2.enabled) {
             return {
-                newData: null,
-                error: "Failed to fetch events"
+                authProviders: '',
             }
         }
 
-        const dataJSON = await data.json() as EventData[];
+        const redirectURL = `${url.origin}/oath`;
+        const planningCenterAuthProvider = authMethods.oauth2.providers[0];
+        const authProviderRedirect = `${planningCenterAuthProvider.authURL}${redirectURL}`;
 
-        return {
-            newData: dataJSON
-        }
-    } catch (error) {
-        console.error('[error]', error);
-        return {
-            newData: null,
-            error: "Failed to fetch events"
-        }
+        const state = planningCenterAuthProvider.state;
+        const verifier = planningCenterAuthProvider.codeVerifier;
+
+        cookies.set('state', state, {
+            path: "/"
+        });
+
+        cookies.set('verifier', verifier, {
+            path: "/"
+        });
+
+        return redirect(302, authProviderRedirect);
     }
-}
+};

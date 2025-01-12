@@ -1,42 +1,21 @@
 <script lang="ts">
-    import { invalidateAll } from "$app/navigation";
-    import Day from "$lib/Day.svelte";
-    import { onMount } from "svelte";
-
-    let today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
-    let tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
-    let thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
-
-    export let data;
-
-    function updatePage() {
-        console.log("Updating Page.");
-        today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
-        tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
-        thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
-
-        invalidateAll();
-    }
-
-    onMount(() => {
-        const updater = setInterval(updatePage, 20000);
-        return () => {
-            clearInterval(updater);
-        }
-    });
+    import Floaters from "$lib/components/mine/Floaters.svelte";
+    import { Button } from "$lib/components/ui/button";
 </script>
 
 <svelte:head>
-    <title>Calendar</title>
+    <title>Planning Center Calendar</title>
 </svelte:head>
 
-<main>
-    {#if data.newData}
-        <!-- <Clock /> -->
-        <Day events={data.newData} day={today} isToday />
-        <Day events={data.newData} day={tomorrow} />
-        <Day events={data.newData} day={thirdDay} />
-    {/if}
+<main class="min-w-screen min-h-screen relative isolate">
+    <Floaters />
+    <section class="w-screen h-screen flex justify-center items-center flex-col bg-gradient-to-t from-secondary dark:to-black to-white">
+        <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mt-10">Just the better way to see your Events!</h1>
+        <p class="leading-7 [&:not(:first-child)]:mt-6">You can view all your events, sort by approval, customise the look of your calendar and so much more.</p>
+        <form method="POST" class="mt-5">
+            <Button type="submit" class="bg-blue-600 hover:bg-blue-700">Sign up using Planning Center</Button>
+        </form>
+    </section>
 </main>
 
 <style>
@@ -44,19 +23,21 @@
         background-color: #FCF7F4;
     }
 
-    :global(html:has(.darkMode)) {
-        background-color: #303030;
-    }
-
     main {
         width: 100%;
         height: 100%;
         background-color: #FCF7F4;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    :global(html:has(.darkMode) main) {
-        background-color: #303030;
+    form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
     }
 </style>

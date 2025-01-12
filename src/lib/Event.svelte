@@ -83,7 +83,6 @@
         color: #fdfdfd;
         font-weight: 500;
         font-size: clamp(0.6rem, 0rem + 1.4vw, 0.8rem);
-        /* font-size: 0.8rem; */
         pointer-events: none;
         margin-top: -3px;
     }
@@ -101,7 +100,6 @@
         color: #8AB4F4;
         font-weight: 700;
         font-size: clamp(0.7rem, 0rem + 1.4vw, 1.05rem);
-        /* font-size: 1.05rem; */
         pointer-events: none;
         display: block;
     }
@@ -125,7 +123,6 @@
 
     .tags {
         display: flex;
-        /* flex-direction: column; */
         align-items: flex-end;
         gap: 3px;
         position: absolute;
