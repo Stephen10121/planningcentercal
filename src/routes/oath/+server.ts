@@ -38,7 +38,7 @@ export async function GET({ locals, url, cookies }) {
         console.log("Returned state does not match expected state.");
         return redirect(303, "/");
     }
-
+    console.log({providerName: provider.name, code, expectedVerifier, redirectURL});
     try {
         await locals.pb.collection("users").authWithOAuth2Code(provider.name, code, expectedVerifier, redirectURL, {
             name: "New User",
