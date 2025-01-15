@@ -16,87 +16,91 @@
 
 {#if data.user}
     <main class="w-full h-full flex justify-center items-center">
-        <Tabs.Root value="monthly" class="w-[400px]">
-            <Tabs.List class="grid w-full grid-cols-2">
-                <Tabs.Trigger value="monthly">Monthly</Tabs.Trigger>
-                <Tabs.Trigger value="yearly">Yearly</Tabs.Trigger>
-            </Tabs.List>
-            <Tabs.Content value="monthly">
-                <Card.Root>
-                    <Card.Header>
-                        <Card.Description>
-                            <span class="text-black font-bold text-2xl">${plans[0].price}</span>{plans[0].duration}
-                        </Card.Description>
-                    </Card.Header>
-                    <Card.Content class="space-y-2">
-                        <ul class="flex flex-col gap-2">
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">View all events and reservations for the next 2 days.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Filter events based on approval status.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Create public and custom calendar views.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Create private, password protected calendar views.</p>
-                            </li>
-                        </ul>
-                    </Card.Content>
-                    <Card.Footer>
-                        <Button href="{plans[0].link}?prefilled_email={data.user.subscriptionEmail}" target="_blank" on:click={(e) => {
-                            if (!data.user?.subscriptionEmail) {
-                                e.preventDefault();
-                                toast.error("Error", { description: "You must set an email first." });
-                                goto("/settings/account");
-                            }
-                        }}>Select This Plan</Button>
-                    </Card.Footer>
-                </Card.Root>
-            </Tabs.Content>
-            <Tabs.Content value="yearly">
-                <Card.Root>
-                    <Card.Header>
-                        <Card.Description>
-                            <span class="text-black font-bold text-2xl">${plans[1].price}</span>{plans[1].duration}
-                        </Card.Description>
-                    </Card.Header>
-                    <Card.Content class="space-y-2">
-                        <ul class="flex flex-col gap-2">
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">View all events and reservations for the next 2 days.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Filter events based on approval status.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Create public and custom calendar views.</p>
-                            </li>
-                            <li class="flex items-center">
-                                <Check class="mr-2 size-4" aria-hidden="true" />
-                                <p class="text-sm">Create private, password protected calendar views.</p>
-                            </li>
-                        </ul>
-                    </Card.Content>
-                    <Card.Footer>
-                        <Button href="{plans[1].link}?prefilled_email={data.user.subscriptionEmail}" target="_blank" on:click={(e) => {
-                            if (!data.user?.subscriptionEmail) {
-                                e.preventDefault();
-                                toast.error("Error", { description: "You must set an email first." });
-                                goto("/settings/account");
-                            }
-                        }}>Select This Plan</Button>
-                    </Card.Footer>
-                </Card.Root>
-            </Tabs.Content>
-        </Tabs.Root>
+        {#if data.hasAccess}
+            <p class="text-center">You already have a subscription plan.<br> To view the plan, go to the <span><a class="underline" href={data.stripeBilling} target="_blank">Billing Customer Portal.</a></span></p>
+        {:else}
+            <Tabs.Root value="monthly" class="w-[400px]">
+                <Tabs.List class="grid w-full grid-cols-2">
+                    <Tabs.Trigger value="monthly">Monthly</Tabs.Trigger>
+                    <Tabs.Trigger value="yearly">Yearly</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content value="monthly">
+                    <Card.Root>
+                        <Card.Header>
+                            <Card.Description>
+                                <span class="text-black dark:text-white font-bold text-2xl">${plans[0].price}</span>{plans[0].duration}
+                            </Card.Description>
+                        </Card.Header>
+                        <Card.Content class="space-y-2">
+                            <ul class="flex flex-col gap-2">
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">View all events and reservations for the next 2 days.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Filter events based on approval status.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Create public and custom calendar views.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Create private, password protected calendar views.</p>
+                                </li>
+                            </ul>
+                        </Card.Content>
+                        <Card.Footer>
+                            <Button href="{plans[0].link}?prefilled_email={data.user.subscriptionEmail}" target="_blank" on:click={(e) => {
+                                if (!data.user?.subscriptionEmail) {
+                                    e.preventDefault();
+                                    toast.error("Error", { description: "You must set an email first." });
+                                    goto("/settings/account");
+                                }
+                            }}>Select This Plan</Button>
+                        </Card.Footer>
+                    </Card.Root>
+                </Tabs.Content>
+                <Tabs.Content value="yearly">
+                    <Card.Root>
+                        <Card.Header>
+                            <Card.Description>
+                                <span class="text-black dark:text-white font-bold text-2xl">${plans[1].price}</span>{plans[1].duration}
+                            </Card.Description>
+                        </Card.Header>
+                        <Card.Content class="space-y-2">
+                            <ul class="flex flex-col gap-2">
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">View all events and reservations for the next 2 days.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Filter events based on approval status.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Create public and custom calendar views.</p>
+                                </li>
+                                <li class="flex items-center">
+                                    <Check class="mr-2 size-4" aria-hidden="true" />
+                                    <p class="text-sm">Create private, password protected calendar views.</p>
+                                </li>
+                            </ul>
+                        </Card.Content>
+                        <Card.Footer>
+                            <Button href="{plans[1].link}?prefilled_email={data.user.subscriptionEmail}" target="_blank" on:click={(e) => {
+                                if (!data.user?.subscriptionEmail) {
+                                    e.preventDefault();
+                                    toast.error("Error", { description: "You must set an email first." });
+                                    goto("/settings/account");
+                                }
+                            }}>Select This Plan</Button>
+                        </Card.Footer>
+                    </Card.Root>
+                </Tabs.Content>
+            </Tabs.Root>
+        {/if}
     </main>
 {/if}

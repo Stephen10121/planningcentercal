@@ -33,12 +33,11 @@
     }
 
     let logoutForm: HTMLFormElement;
-
 </script>
 
 <svelte:window on:scroll={scrolling} />
 
-{#if $page.url.pathname !== "/dashboard"}
+{#if $page.url?.pathname.substring(0, 9) !== "/calendar"}
 <header class="{cl} border-b flex justify-between items-center w-screen px-32 py-5 fixed top-0 left-0 z-20 bg-white dark:bg-background">
     <section class="flex item gap-2 items-center">
         {#if !data.user}
@@ -95,24 +94,27 @@
                         <a href="/dashboard">
                             <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
                         </a>
+                        <a href="/calendar/test">
+                            <DropdownMenu.Item>Calendar</DropdownMenu.Item>
+                        </a>
                         <DropdownMenu.Separator />
                         <a href="/settings/profile">
                             <DropdownMenu.Item>Profile</DropdownMenu.Item>
                         </a>
+                        {#if data.hasAccess}
+                            <a href={data.stripeBilling} target="_blank">
+                                <DropdownMenu.Item>Billing Portal</DropdownMenu.Item>
+                            </a>
+                        {:else}
+                            <a href="/settings/pricing">
+                                <DropdownMenu.Item>Pricing</DropdownMenu.Item>
+                            </a>
+                        {/if}
                         <a href="/settings/account">
                             <DropdownMenu.Item>Account</DropdownMenu.Item>
                         </a>
                         <a href="/settings/security">
                             <DropdownMenu.Item>Security</DropdownMenu.Item>
-                        </a>
-                        <a href="/settings/pricing">
-                            <DropdownMenu.Item>Pricing</DropdownMenu.Item>
-                        </a>
-                        <a href="https://billing.stripe.com/p/login/test_aEU4hH4zx23K5iwbII">
-                            <DropdownMenu.Item>Billing Customer Portal</DropdownMenu.Item>
-                        </a>
-                        <a href="/settings/developer">
-                            <DropdownMenu.Item>Developer</DropdownMenu.Item>
                         </a>
                     </DropdownMenu.Group>
                     <DropdownMenu.Separator />
@@ -121,9 +123,6 @@
                     </a>
                     <a href="https://buymeacoffee.com/stephen10121" target="_blank">
                         <DropdownMenu.Item>Support</DropdownMenu.Item>
-                    </a>
-                    <a href="https://github.com/Stephen10121/auth3" target="_blank">
-                        <DropdownMenu.Item>API</DropdownMenu.Item>
                     </a>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Sub>
@@ -144,8 +143,9 @@
     </section>
 </header>
 {/if}
-<Toaster />
+
 <ModeWatcher />
+<Toaster />
 
 <slot></slot>
 

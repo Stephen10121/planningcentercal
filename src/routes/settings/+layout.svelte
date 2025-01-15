@@ -2,11 +2,12 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import Cog from "lucide-svelte/icons/settings";
     import Person from "lucide-svelte/icons/circle-user-round";
-    import Code from "lucide-svelte/icons/code-xml";
     import ArrowBack from "lucide-svelte/icons/corner-up-left";
     import Shield from "lucide-svelte/icons/shield-check";
     import Pricing from "lucide-svelte/icons/badge-dollar-sign";
     import { page } from "$app/stores";
+
+    export let data;
 </script>
 
 <main class="mt-20 w-full grid p-3 pt-5 px-32">
@@ -18,24 +19,27 @@
                     Back to Dashboard
                 </Button>
                 <Button href="/settings/profile" variant={$page.url.pathname === "/settings/profile" ? "secondary" : "ghost"} size="sm" class="justify-start">
-                    <Cog class="mr-2 size-4" aria-hidden="true" />
+                    <Person class="mr-2 size-4" aria-hidden="true" />
                     Profile
                 </Button>
-                <Button href="/settings/pricing" variant={$page.url.pathname === "/settings/pricing" ? "secondary" : "ghost"} size="sm" class="justify-start">
-                    <Pricing class="mr-2 size-4" aria-hidden="true" />
-                    Pricing
-                </Button>
+                {#if data.hasAccess}
+                    <Button href={data.stripeBilling} target="_blank" variant="ghost" size="sm" class="justify-start">
+                        <Pricing class="mr-2 size-4" aria-hidden="true" />
+                        Billing Portal
+                    </Button>
+                {:else}
+                    <Button href="/settings/pricing" variant={$page.url.pathname === "/settings/pricing" ? "secondary" : "ghost"} size="sm" class="justify-start">
+                        <Pricing class="mr-2 size-4" aria-hidden="true" />
+                        Pricing
+                    </Button>
+                {/if}
                 <Button href="/settings/account" variant={$page.url.pathname === "/settings/account" ? "secondary" : "ghost"} size="sm" class="justify-start">
-                    <Person class="mr-2 size-4" aria-hidden="true" />
+                    <Cog class="mr-2 size-4" aria-hidden="true" />
                     Account
                 </Button>
                 <Button href="/settings/security" variant={$page.url.pathname === "/settings/security" ? "secondary" : "ghost"} size="sm" class="justify-start">
                     <Shield class="mr-2 size-4" aria-hidden="true" />
                     Security
-                </Button>
-                <Button href="/settings/developer" variant={$page.url.pathname.includes("/settings/developer") ? "secondary" : "ghost"} size="sm" class="justify-start">
-                    <Code class="mr-2 size-4" aria-hidden="true" />
-                    Developer
                 </Button>
             </nav>
         </div>

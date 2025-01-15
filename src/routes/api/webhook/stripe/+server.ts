@@ -13,12 +13,14 @@ export async function POST({ request, locals }) {
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
+    console.log("hello");
     const body = await request.text();
+    console.log("yellow");
     const signature = request.headers.get('stripe-signature') || "";
 
     let event;
 
+    console.log({ body, signature, secret: process.env.STRIPE_WEBHOOK_SECRET})
     try {
         event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
@@ -64,6 +66,8 @@ export async function POST({ request, locals }) {
             const subscription = await stripe.subscriptions.retrieve(data.object.id);
 
             const user = await locals.pb.collection('users').getFirstListItem(`customerId="${subscription.customer}"`);
+
+            console.log(user.name, "is deleting their subscription.");
 
             await locals.pb.collection('users').update(user.id, {
                 hasAccess: false,

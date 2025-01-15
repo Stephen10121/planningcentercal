@@ -26,7 +26,18 @@ export const actions = {
             }
         }
 
-        const redirectURL = dev ? `${url.origin}/oath` : "https://planningcenter.stephengruzin.dev/oath";
+        let redirectURL;
+
+        if (dev) {
+            if (url.origin.includes(".dev")) {
+                redirectURL = url.origin.replace("http", "https") + "/oath";
+            } else {
+                redirectURL = url.origin + "/oath";
+            }
+        } else {
+            redirectURL = "https://planningcenter.stephengruzin.dev/oath";
+        }
+        
         const planningCenterAuthProvider = authMethods.oauth2.providers[0];
         const authProviderRedirect = `${planningCenterAuthProvider.authURL}${redirectURL}`;
 

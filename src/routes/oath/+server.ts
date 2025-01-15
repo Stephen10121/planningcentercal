@@ -9,7 +9,18 @@ export async function GET({ locals, url, cookies }) {
         return redirect(303, "/");
     }
 
-    const redirectURL = dev ? `${url.origin}/oath` : "https://planningcenter.stephengruzin.dev/oath";
+    let redirectURL;
+
+    if (dev) {
+        if (url.origin.includes(".dev")) {
+            redirectURL = url.origin.replace("http", "https") + "/oath";
+        } else {
+            redirectURL = url.origin + "/oath";
+        }
+    } else {
+        redirectURL = "https://planningcenter.stephengruzin.dev/oath";
+    }
+        
     const state = url.searchParams.get("state");
     const code = url.searchParams.get("code");
 

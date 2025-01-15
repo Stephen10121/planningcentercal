@@ -1,62 +1,74 @@
 <script lang="ts">
-    import { invalidateAll } from "$app/navigation";
-    import Day from "$lib/Day.svelte";
-    import { onMount } from "svelte";
+	import Activity from "lucide-svelte/icons/activity";
+	import Download from "lucide-svelte/icons/download";
+	import Users from "lucide-svelte/icons/users";
+	import { Button } from "$lib/components/ui/button";
+    import * as Card from "$lib/components/ui/card/index.js";
+	import * as Tabs from "$lib/components/ui/tabs/index.js";
 
-    let today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
-    let tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
-    let thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
-
-    export let data;
-
-    function updatePage() {
-        console.log("Updating Page.");
-        today = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 0).setHours(0, 0, 0, 0));
-        tomorrow = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 1).setHours(0, 0, 0, 0));
-        thirdDay = new Date(new Date(new Date().getTime() + (24 * 60 * 60 * 1000) * 2).setHours(0, 0, 0, 0));
-
-        invalidateAll();
-    }
-
-    onMount(() => {
-        const updater = setInterval(updatePage, 20000);
-        return () => {
-            clearInterval(updater);
-        }
-    });
+	export let data;
 </script>
 
-<svelte:head>
-    <title>Calendar</title>
-</svelte:head>
-
-<main>
-    {#if data.newData}
-        <!-- <Clock /> -->
-        <Day events={data.newData} day={today} isToday />
-        <Day events={data.newData} day={tomorrow} />
-        <Day events={data.newData} day={thirdDay} />
-    {/if}
-</main>
-
-<style>
-    :global(html) {
-        background-color: #303030;
-    }
-
-    :global(html:has(.darkMode)) {
-        background-color: #303030;
-    }
-
-    main {
-        width: 100%;
-        height: 100%;
-        background-color: #303030;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    :global(html:has(.darkMode) main) {
-        background-color: #303030;
-    }
-</style>
+{#if data.user}
+    <div class="hidden flex-col md:flex px-24 mt-20">
+        <div class="flex-1 space-y-4 p-8 pt-6">
+            <div class="flex items-center justify-between space-y-2">
+                <h2 class="text-3xl font-bold tracking-tight">Hello {data.user.name}</h2>
+                <div class="flex items-center space-x-2">
+                    <Button size="sm">
+                        <Download class="mr-2 h-4 w-4" />
+                        Download
+                    </Button>
+                </div>
+            </div>
+            <Tabs.Root value="overview" class="space-y-4">
+                <Tabs.List>
+                    <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+                    <Tabs.Trigger value="analytics" disabled>Analytics</Tabs.Trigger>
+                    <Tabs.Trigger value="reports" disabled>Reports</Tabs.Trigger>
+                    <Tabs.Trigger value="notifications" disabled>Notifications</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content value="overview" class="space-y-4">
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        <!-- <TotalLoginsCard logins={data.user.logins} /> -->
+                        <Card.Root>
+                            <Card.Header
+                                class="flex flex-row items-center justify-between space-y-0 pb-2"
+                            >
+                                <Card.Title class="text-sm font-medium">Subscriptions</Card.Title>
+                                <Users class="h-4 w-4 text-muted-foreground" />
+                            </Card.Header>
+                            <Card.Content>
+                                <div class="text-2xl font-bold">1</div>
+                                <p class="text-xs text-muted-foreground">+180.1% from last month</p>
+                            </Card.Content>
+                        </Card.Root>
+                        <!-- <MostUsedPasskey passkeys={data.publicPasskeys} /> -->
+                        <Card.Root>
+                            <Card.Header
+                                class="flex flex-row items-center justify-between space-y-0 pb-2"
+                            >
+                                <Card.Title class="text-sm font-medium">Active Now</Card.Title>
+                                <Activity class="h-4 w-4 text-muted-foreground" />
+                            </Card.Header>
+                            <Card.Content>
+                                <div class="text-2xl font-bold">+573</div>
+                                <p class="text-xs text-muted-foreground">+201 since last hour</p>
+                            </Card.Content>
+                        </Card.Root>
+                    </div>
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                        <Card.Root class="col-span-3">
+                            <Card.Header>
+                                <Card.Title>Login History</Card.Title>
+                                <Card.Description>Where and when you logged in.</Card.Description>
+                            </Card.Header>
+                            <Card.Content>
+                            </Card.Content>
+                        </Card.Root>
+                    </div>
+                </Tabs.Content>
+            </Tabs.Root>
+        </div>
+    </div>
+{/if}
