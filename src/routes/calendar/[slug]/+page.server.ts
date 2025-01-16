@@ -5,7 +5,7 @@ import type { RecordModel } from 'pocketbase';
 
 config();
 
-export async function load({ params, locals }) {
+export async function load({ params, locals, cookies }) {
     let calendar: RecordModel;
     try {
         calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`);
@@ -15,22 +15,10 @@ export async function load({ params, locals }) {
     }
 
     if (calendar.password) {
-        return redirect(301, `/calendar/${params.slug}/login`);
+        if (cookies.get(`cal-${params.slug}`) !== calendar.password) {
+            return redirect(301, `/calendar/${params.slug}/login`);
+        }
     }
-
-    // if (params.slug !== 'test') {
-	// 	return redirect(301, "/");
-	// }
-    // await parent();
-    // const password = cookies.get("password");
-
-    // if (!password) {
-        // return redirect(301, "/login");
-    // }
-
-    // if (password !== process.env.WEBSITE_PASSWORD) {
-        // return redirect(301, "/login");
-    // }
 
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
 
