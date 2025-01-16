@@ -14,8 +14,6 @@
     let updatingToast: undefined | string | number = "";
 
     $: {
-        console.log(form?.message);
-
         if (!form?.success && form?.message) {
             toast.error(form.message);
             toast.dismiss(updatingToast);
@@ -27,6 +25,10 @@
     }
 
 </script>
+
+<svelte:head>
+    <title>Login | {data.name}</title>
+</svelte:head>
 
 <main class="w-full h-full flex items-center justify-center">
     <Card.Root class="w-[350px]">
