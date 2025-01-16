@@ -37,7 +37,7 @@
 
 <svelte:window on:scroll={scrolling} />
 
-{#if $page.url?.pathname.substring(0, 9) !== "/calendar"}
+{#if ($page.url ? $page.url.pathname.length > 9 ? $page.url.pathname.substring(0, 9) !== "/calendar" : true : true)}
 <header class="{cl} border-b flex justify-between items-center w-screen px-32 py-5 fixed top-0 left-0 z-20 bg-white dark:bg-background">
     <section class="flex item gap-2 items-center">
         {#if !data.user}
@@ -94,8 +94,8 @@
                         <a href="/dashboard">
                             <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
                         </a>
-                        <a href="/calendar/test">
-                            <DropdownMenu.Item>Calendar</DropdownMenu.Item>
+                        <a href="/mycalendars">
+                            <DropdownMenu.Item>My Calendars</DropdownMenu.Item>
                         </a>
                         <DropdownMenu.Separator />
                         <a href="/settings/profile">
