@@ -27,6 +27,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Dashboard | EventLooker</title>
+</svelte:head>
+
 {#if data.user}
     <div class="hidden flex-col md:flex px-24 mt-20">
         <div class="flex-1 space-y-4 p-8 pt-6">
