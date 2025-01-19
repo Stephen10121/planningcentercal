@@ -1,4 +1,3 @@
-import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 export async function load({ parent }) {

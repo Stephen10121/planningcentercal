@@ -21,7 +21,7 @@
     let creatingCalendar: string | number | undefined = undefined;
 
     function dismissLoading() {
-        if (creatingCalendar) {
+        if (creatingCalendar !== undefined) {
             toast.dismiss(creatingCalendar);
             creatingCalendar = undefined;
         }
@@ -91,7 +91,7 @@
                                             <p class="text-sm font-medium leading-none">{calendar.name}</p>
                                             <a href="/calendar/{calendar.id}" class="underline text-muted-foreground text-sm">/calendar/{calendar.id}</a>
                                         </div>
-                                        <Button variant="secondary" class="ml-auto font-medium" size="sm">
+                                        <Button variant="secondary" class="ml-auto font-medium" size="sm" href="/mycalendars/{calendar.id}">
                                             Edit
                                         </Button>
                                     </div>
