@@ -91,8 +91,8 @@
                                             <p class="text-sm font-medium leading-none">{calendar.name}</p>
                                             <a href="/calendar/{calendar.id}" target="_blank" class="underline text-muted-foreground text-sm">/calendar/{calendar.id}</a>
                                         </div>
-                                        <Button variant="secondary" class="ml-auto font-medium" size="sm" href="/mycalendars/{calendar.id}">
-                                            Edit
+                                        <Button variant="secondary" class="ml-auto text-xs p-2 h-7" size="sm" href="/mycalendars/{calendar.id}">
+                                            More Info
                                         </Button>
                                     </div>
                                 {/each}
