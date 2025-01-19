@@ -134,7 +134,7 @@
                                             <div class="flex flex-col gap-3">
                                                 <div class="grid w-full max-w-sm items-center gap-1.5">
                                                     <Label for="name">Name</Label>
-                                                    <Input type="text" autocomplete="off" id='name' name="name" placeholder="e.g. 'Bobs Calendar'" class="max-w-xs" />
+                                                    <Input required type="text" autocomplete="off" id='name' name="name" placeholder="e.g. 'Bobs Calendar'" class="max-w-xs" />
                                                 </div>
                                                 <div class="grid w-full max-w-sm items-center gap-1.5">
                                                     <div class="flex justify-between items-center">
@@ -152,7 +152,7 @@
                                                             </Tooltip.Content>
                                                         </Tooltip.Root>
                                                     </div>
-                                                    <Input type="text" autocomplete="off" id='id' name="id" placeholder="e.g. 'bob123'" class="max-w-xs" />
+                                                    <Input required type="text" autocomplete="off" id='id' name="id" placeholder="e.g. 'bob123'" class="max-w-xs" />
                                                 </div>
                                                 <div class="flex items-center justify-between space-x-2 mt-2">
                                                     <Label for="use-password">Use Password</Label>
