@@ -68,7 +68,7 @@
                             </Card.Header>
                             <Card.Content>
                                 <div class="text-2xl font-bold">{calendarAmount}</div>
-                                <p class="text-xs text-muted-foreground">Customised Calendars.</p>
+                                <p class="text-xs text-muted-foreground">Customized Calendars.</p>
                             </Card.Content>
                         </Card.Root>
                     </div>
