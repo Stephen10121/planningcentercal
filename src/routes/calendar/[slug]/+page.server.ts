@@ -43,7 +43,8 @@ export async function load({ params, locals, cookies }) {
         
         return {
             newData: dataJSON,
-            name: calendar.name
+            name: calendar.name,
+            logoLink: locals.pb.files.getURL(calendar, calendar.logo),
         }
     } catch (error) {
         console.error('[error]', error);
