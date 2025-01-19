@@ -8,7 +8,7 @@
   import { Input } from "$lib/components/ui/input/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
     import Pencil from "lucide-svelte/icons/pencil";
-    import Question from "lucide-svelte/icons/circle-help";
+    import BackArrow from "lucide-svelte/icons/arrow-left";
     import { Switch } from "$lib/components/ui/switch/index.js";
     import * as Tooltip from "$lib/components/ui/tooltip/index.js";
     import { toast } from "svelte-sonner";
@@ -72,7 +72,8 @@
 </svelte:head>
 
 {#if data.user}
-    <div class="flex items-center justify-center px-24 mt-20 w-full">
+    <div class="flex items-center justify-center px-24 mt-20 w-full relative">
+        <a class="flex items-center gap-2 underline absolute top-5 left-3 px-1 h-5" href="/mycalendars">Go Back</a>
         <form method="POST" enctype="multipart/form-data" use:enhance={() => {
                 if (!creatingCalendar) creatingCalendar = toast.loading("Creating Calendar...");
                 return async ({ update }) => {

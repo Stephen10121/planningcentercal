@@ -14,7 +14,7 @@
     let updatingToast: undefined | string | number = "";
 
     function dismissToast() {
-        if (updatingToast) {
+        if (updatingToast !== undefined) {
             toast.dismiss(updatingToast);
             updatingToast = undefined;
         }

@@ -89,7 +89,7 @@
                                         </Avatar.Root>
                                         <div class="ml-4 space-y-1">
                                             <p class="text-sm font-medium leading-none">{calendar.name}</p>
-                                            <a href="/calendar/{calendar.id}" class="underline text-muted-foreground text-sm">/calendar/{calendar.id}</a>
+                                            <a href="/calendar/{calendar.id}" target="_blank" class="underline text-muted-foreground text-sm">/calendar/{calendar.id}</a>
                                         </div>
                                         <Button variant="secondary" class="ml-auto font-medium" size="sm" href="/mycalendars/{calendar.id}">
                                             Edit
