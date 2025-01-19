@@ -76,7 +76,7 @@
                         <Card.Root class="col-span-4">
                             <Card.Header>
                                 <Card.Title>Most popular</Card.Title>
-                                <Card.Description>The most popular calendars that you've created.</Card.Description>
+                                <Card.Description>The top 3 most popular calendars that you've created.</Card.Description>
                             </Card.Header>
                             <Card.Content>
                                 <div class="space-y-8">
