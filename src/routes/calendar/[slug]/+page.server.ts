@@ -36,10 +36,6 @@ export async function load({ params, locals, cookies }) {
         }
 
         const dataJSON = await data.json() as EventData[];
-
-        await locals.pb.collection('calendar').update(calendar.id, { 
-            clicks: calendar.clicks + 1
-        });
         
         return {
             newData: dataJSON,

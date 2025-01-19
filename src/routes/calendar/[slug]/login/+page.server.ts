@@ -40,6 +40,14 @@ export const actions = {
             path: "/"
         });
 
+        try {
+            await locals.pb.collection('calendar').update(calendar.id, { 
+                logins: calendar.logins + 1
+            });
+        } catch (err) {
+            console.log("Failed to update the logins", err);
+        }
+
         return { success: true }
     }
 };
