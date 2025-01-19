@@ -1,10 +1,11 @@
 <script lang="ts">
 	import Activity from "lucide-svelte/icons/activity";
-	import Download from "lucide-svelte/icons/download";
 	import Users from "lucide-svelte/icons/users";
 	import { Button } from "$lib/components/ui/button";
     import * as Card from "$lib/components/ui/card/index.js";
 	import * as Tabs from "$lib/components/ui/tabs/index.js";
+    import * as Avatar from "$lib/components/ui/avatar/index.js";
+    import type { RecordModel } from "pocketbase";
 
 	export let data;
 
@@ -16,6 +17,13 @@
         for (let i=0;i<data.calendars.length;i++) {
             totalLogins += data.calendars[i].logins;
         }
+    }
+
+    let calendars: RecordModel[] | undefined = data.calendars;
+    if (calendars) {
+        calendars.sort((a, b) => {
+            return b.logins - a.logins
+        });
     }
 </script>
 
@@ -59,6 +67,38 @@
                                 <p class="text-xs text-muted-foreground">Customised Calendars.</p>
                             </Card.Content>
                         </Card.Root>
+                    </div>
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                        <Card.Root class="col-span-4">
+                            <Card.Header>
+                                <Card.Title>Most popular</Card.Title>
+                                <Card.Description>The most popular calendars that you've created.</Card.Description>
+                            </Card.Header>
+                            <Card.Content>
+                                <div class="space-y-8">
+                                    {#if calendars}
+                                        {#each calendars.slice(0, 3) as calendar (calendar.id)}
+                                            <div class="flex items-center">
+                                                <Avatar.Root class="h-11 w-11 border-gray border-2">
+                                                    <Avatar.Image src={calendar.logoLink} alt="Avatar" />
+                                                    <Avatar.Fallback>{calendar.name[0]}</Avatar.Fallback>
+                                                </Avatar.Root>
+                                                <div class="ml-4 space-y-1">
+                                                    <p class="text-sm font-medium leading-none">{calendar.name}</p>
+                                                    <p class="text-muted-foreground text-sm">{calendar.logins} login{calendar.logins !== 1 ? "s" : ""}.</p>
+                                                </div>
+                                                <Button variant="secondary" class="ml-auto text-xs p-2 h-7" size="sm" href="/mycalendars/{calendar.id}">
+                                                    More Info
+                                                </Button>
+                                            </div>
+                                        {/each}
+                                    {:else}
+                                        <p class="flex items-center justify-center">No Calendars yet.</p>
+                                    {/if}
+                                </div>
+                            </Card.Content>
+                        </Card.Root>
+                        <div class="col-span-1"></div>
                     </div>
                 </Tabs.Content>
             </Tabs.Root>
