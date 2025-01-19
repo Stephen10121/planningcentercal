@@ -13,14 +13,21 @@
 
     let updatingToast: undefined | string | number = "";
 
+    function dismissToast() {
+        if (updatingToast) {
+            toast.dismiss(updatingToast);
+            updatingToast = undefined;
+        }
+    }
+
     $: {
         if (!form?.success && form?.message) {
             toast.error(form.message);
-            toast.dismiss(updatingToast);
+            dismissToast();
         }
         if (form?.success) {
+            dismissToast();
             goto(`/calendar/${data.id}`);
-            toast.dismiss(updatingToast);
         }
     }
 
@@ -41,8 +48,7 @@
                 updatingToast = toast.loading("Logging In...");
                 return async ({ update }) => {
                     if (updatingToast) {
-                        toast.dismiss(updatingToast);
-                        updatingToast = undefined;
+                        dismissToast();
                     }
                     update({ reset: true });
                 };
