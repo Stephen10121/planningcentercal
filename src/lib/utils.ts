@@ -2,7 +2,6 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
-import { dev } from "$app/environment";
 // import { PRICEONELINK, PRICEONEID, PRICETWOLINK, PRICETWOID } from '$env/static/private';
 
 export function cn(...inputs: ClassValue[]) {

@@ -1,16 +1,14 @@
 <script lang="ts">
     import * as Avatar from "$lib/components/ui/avatar/index.js";
 	import {
-    Button,
-    buttonVariants
-  } from "$lib/components/ui/button/index.js";
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
-  import { Input } from "$lib/components/ui/input/index.js";
-  import { Label } from "$lib/components/ui/label/index.js";
+        Button,
+        buttonVariants
+    } from "$lib/components/ui/button/index.js";
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
+    import { Input } from "$lib/components/ui/input/index.js";
+    import { Label } from "$lib/components/ui/label/index.js";
     import Pencil from "lucide-svelte/icons/pencil";
-    import BackArrow from "lucide-svelte/icons/arrow-left";
     import { Switch } from "$lib/components/ui/switch/index.js";
-    import * as Tooltip from "$lib/components/ui/tooltip/index.js";
     import { toast } from "svelte-sonner";
     import { enhance } from "$app/forms";
 
@@ -19,6 +17,7 @@
 
     let linkToAvatar = data.logoLink;
     let name = data.name;
+    let password = "*".repeat(data.passwordlen);
 
     let creatingCalendar: string | number | undefined = undefined;
 
@@ -55,16 +54,16 @@
         }
     }
 
-    let usePassword = data.hasPassword;
-    let changesMade = false;
-
-    $: {
-        if (data.name !== name || usePassword !== data.hasPassword) {
-            changesMade = true;
-        } else {
-            changesMade = false;
-        }
+    function enhancedForm() {
+        if (!creatingCalendar) creatingCalendar = toast.loading("Creating Calendar...");
+        //@ts-ignore
+        return async ({ update }) => {
+            dismissLoading();
+            update({ reset: false });
+        };
     }
+
+    let usePassword = data.hasPassword;
 </script>
 
 <svelte:head>
@@ -74,13 +73,14 @@
 {#if data.user}
     <div class="flex items-center justify-center px-24 mt-20 w-full relative">
         <a class="flex items-center gap-2 underline absolute top-5 left-3 px-1 h-5" href="/mycalendars">All Calendars</a>
-        <form method="POST" enctype="multipart/form-data" use:enhance={() => {
-                if (!creatingCalendar) creatingCalendar = toast.loading("Creating Calendar...");
-                return async ({ update }) => {
-                    dismissLoading();
-                    update({ reset: false });
-                };
-        }}>
+        <form
+            method="POST"
+            id="updateCalendar"
+            action="?/updateCalendar"
+            enctype="multipart/form-data"
+            use:enhance={enhancedForm}>
+        </form>
+        <div>
             <div class="flex flex-col mt-10 gap-10 px-2 w-full mx-auto">
                 <div class="w-fit mx-auto">
                     <label for="logo" class="relative cursor-pointer w-72 h-72" title="Change Logo">
@@ -92,12 +92,12 @@
                             <Pencil class="size-4" aria-hidden="true" color="#ffffff" />
                         </div>
                     </label>
-                    <input type="file" id="logo" name="logo" accept="image/png, image/jpeg, image/svg+xml, image/gif, image/webp" hidden on:change={showPreview} />
+                    <input form="updateCalendar" type="file" id="logo" name="logo" accept="image/png, image/jpeg, image/svg+xml, image/gif, image/webp" hidden on:change={showPreview} />
                 </div>
                 <div class="flex flex-col gap-3">
                     <div class="grid w-full max-w-sm items-center gap-1.5">
                         <Label for="name">Name</Label>
-                        <Input type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" class="max-w-xs" />
+                        <Input form="updateCalendar" type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" class="max-w-xs" />
                     </div>
                     <div class="flex items-center justify-between space-x-2 mt-2">
                         <Label for="use-password">Use Password</Label>
@@ -105,35 +105,40 @@
                     </div>
                     {#if usePassword}
                         <Dialog.Root>
-                            <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Change Password</Dialog.Trigger>
+                            <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>{data.hasPassword ? "Change" : "Set"} Password</Dialog.Trigger>
                             <Dialog.Content class="sm:max-w-[425px]">
                             <Dialog.Header>
-                                <Dialog.Title>Change Password</Dialog.Title>
+                                <Dialog.Title>{data.hasPassword ? "Change" : "Set"} Password</Dialog.Title>
                                 <Dialog.Description>
                                 Make changes to your password here. Click save when you're done.
                                 </Dialog.Description>
                             </Dialog.Header>
-                            <div class="grid gap-4 py-4">
-                                <div class="grid w-full max-w-sm items-center gap-1.5">
-                                    <Label for="prevPassword">Previous Password</Label>
-                                    <Input type="password" autocomplete="off" id='prevPassword' placeholder="Previous Password" />
+                            <form
+                                method="POST"
+                                id="updatePassword"
+                                action="?/updatePassword"
+                                use:enhance={enhancedForm}
+                            >
+                                <div class="grid gap-4 py-4">
+                                    <div class="grid w-full max-w-sm items-center gap-1.5">
+                                        <Label for="prevPassword">Previous Password</Label>
+                                        <Input required type="password" autocomplete="off" name="prevPassword2" id='prevPassword' placeholder="Previous Password" />
+                                    </div>
+                                    <div class="grid w-full max-w-sm items-center gap-1.5">
+                                        <Label for="newPassword">New Password</Label>
+                                        <Input required type="password" autocomplete="off" name="newPassword" id='newPassword' placeholder="New Password" />
+                                    </div>
                                 </div>
-                                <div class="grid w-full max-w-sm items-center gap-1.5">
-                                    <Label for="newPassword">New Password</Label>
-                                    <Input type="password" autocomplete="off" id='newPassword' placeholder="New Password" />
-                                </div>
-                            </div>
+                            </form>
                             <Dialog.Footer>
-                                <Button type="submit">Save changes</Button>
+                                <Button type="submit" form="updatePassword">Save changes</Button>
                             </Dialog.Footer>
                             </Dialog.Content>
                         </Dialog.Root>
                     {/if}
-                    {#if changesMade}
-                        <Button class="mt-4" type="submit">Update Calendar</Button>
-                    {/if}
+                    <Button form="updateCalendar" class="mt-4" type="submit">Update Calendar</Button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 {/if}
