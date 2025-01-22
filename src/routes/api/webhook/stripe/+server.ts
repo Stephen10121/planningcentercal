@@ -51,12 +51,20 @@ export async function POST({ request, locals }) {
                 if (!plan) break;
 
                 //@ts-ignore
-                const user = await locals.pb.collection('users').getFirstListItem(`subscriptionEmail="${customer.email}"`);
+                const user = await locals.pb.collection('users').getFirstListItem(`subscriptionEmail="${customer.email}"`, {
+                    headers: {
+                        "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                    }
+                });
 
                 await locals.pb.collection('users').update(user.id, {
                     priceId,
                     hasAccess: true,
                     customerId
+                }, {
+                    headers: {
+                        "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                    }
                 });
 
                 break
@@ -65,12 +73,20 @@ export async function POST({ request, locals }) {
             //@ts-ignore
             const subscription = await stripe.subscriptions.retrieve(data.object.id);
 
-            const user = await locals.pb.collection('users').getFirstListItem(`customerId="${subscription.customer}"`);
+            const user = await locals.pb.collection('users').getFirstListItem(`customerId="${subscription.customer}"`, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
 
             console.log(user.name, "is deleting their subscription.");
 
             await locals.pb.collection('users').update(user.id, {
                 hasAccess: false,
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
             });
 
             break

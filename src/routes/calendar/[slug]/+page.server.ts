@@ -8,7 +8,11 @@ config();
 export async function load({ params, locals, cookies }) {
     let calendar: RecordModel;
     try {
-        calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`);
+        calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`, {
+            headers: {
+                "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+            }
+        });
     } catch (err) {
         console.log("Calendar not found.");
         return redirect(301, "/");

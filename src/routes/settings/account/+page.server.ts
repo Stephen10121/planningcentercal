@@ -68,6 +68,10 @@ export const actions = {
         try {
             let r = await locals.pb.collection('users').update(locals.user?.id, {
                 "subscriptionEmail": data.email,
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
             });
         } catch (err) {
             console.log(err);

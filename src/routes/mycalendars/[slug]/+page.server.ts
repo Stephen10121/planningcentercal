@@ -15,7 +15,11 @@ export async function load({ params, locals }) {
     const id = params.slug;
 
     try {
-        const calendar = await locals.pb.collection('calendar').getOne(id);
+        const calendar = await locals.pb.collection('calendar').getOne(id, {
+            headers: {
+                "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+            }
+        });
 
         if (calendar.owner !== locals.user?.id) return redirect(301, "/mycalendars");
 
@@ -51,13 +55,21 @@ export const actions = {
         }
 
         try {
-            await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`);
+            await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (_err) {
             return { error: true, success: false, message: "Couldn't update Calendar." }
         }
 
         try {
-            await locals.pb.collection("calendar").update(params.slug, data);
+            await locals.pb.collection("calendar").update(params.slug, data, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (err) {
             console.log(err);
 
@@ -74,7 +86,11 @@ export const actions = {
 
         let calendar: RecordModel;
         try {
-            calendar = await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`);
+            calendar = await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (_err) {
             return { error: true, success: false, message: "Couldn't update Password." }
         }
@@ -89,7 +105,11 @@ export const actions = {
         console.log(data.get("prevPassword"), data.get("newPassword"), data.get("prevPassword") === calendar.password);
         return { error: false, success: true, message: `Successfully updated Password.` }
         try {
-            await locals.pb.collection("calendar").update(params.slug, data);
+            await locals.pb.collection("calendar").update(params.slug, data, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (err) {
             console.log(err);
 

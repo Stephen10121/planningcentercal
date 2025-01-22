@@ -14,7 +14,11 @@ export const actions = {
         }
 
         try {
-            await locals.pb.collection('users').delete(locals.user.id);
+            await locals.pb.collection('users').delete(locals.user.id, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
             locals.pb.authStore.clear();
         } catch (err) {
             return { error: true, success: false, message: "Unable to delete account. Try again later." }

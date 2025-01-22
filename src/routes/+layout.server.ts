@@ -15,6 +15,9 @@ export async function load({ locals }) {
 
             const records = await locals.pb.collection('calendar').getFullList({
                 filter: `owner = "${locals.user?.id}"`,
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
             });
         
             let newRecords: RecordModel[] = [];

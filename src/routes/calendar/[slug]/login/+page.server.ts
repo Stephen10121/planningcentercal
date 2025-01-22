@@ -7,7 +7,11 @@ config();
 export async function load({ locals, params }) {
     let calendar: RecordModel;
     try {
-        calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`);
+        calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`, {
+            headers: {
+                "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+            }
+        });
     } catch (err) {
         console.log("Calendar not found.");
         return redirect(301, "/");
@@ -26,7 +30,11 @@ export const actions = {
 
         let calendar: RecordModel;
         try {
-            calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`);
+            calendar = await locals.pb.collection('calendar').getFirstListItem(`id="${params.slug}"`, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (err) {
             console.log("Calendar not found.");
             return redirect(301, "/");
@@ -43,6 +51,10 @@ export const actions = {
         try {
             await locals.pb.collection('calendar').update(calendar.id, { 
                 logins: calendar.logins + 1
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
             });
         } catch (err) {
             console.log("Failed to update the logins", err);

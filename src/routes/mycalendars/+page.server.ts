@@ -44,7 +44,11 @@ export const actions = {
 
         const password = data.get("password") as string;
         try {
-            await locals.pb.collection('calendar').getOne(id);
+            await locals.pb.collection('calendar').getOne(id, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
 
             return { error: true, success: false, message: "Id is already in use." }
         } catch (_err) {
@@ -57,6 +61,10 @@ export const actions = {
                 "password": password,
                 "logo": logo,
                 "owner": locals.user.id
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
             });
         } catch (err) {
             return { error: true, success: false, message: "Failed to create Calendar." }
