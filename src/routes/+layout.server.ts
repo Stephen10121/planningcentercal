@@ -7,7 +7,11 @@ config();
 export async function load({ locals }) {
     if (locals.user) {
         try {
-            const user = await locals.pb.collection("users").getOne(locals.user.id);
+            const user = await locals.pb.collection("users").getOne(locals.user.id, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
 
             const records = await locals.pb.collection('calendar').getFullList({
                 filter: `owner = "${locals.user?.id}"`,

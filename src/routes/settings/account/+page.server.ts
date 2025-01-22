@@ -1,5 +1,7 @@
-import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { config } from "dotenv";
+
+config();
 
 export async function load({ parent }) {
     await parent();
@@ -18,12 +20,20 @@ export const actions = {
         }
 
         try {
-            await locals.pb.collection("users").getFirstListItem(`username="${data.username}"`);
+            await locals.pb.collection("users").getFirstListItem(`username="${data.username}"`, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
         } catch (err) {
             //@ts-ignore
             if (err.status === 404) {
                 try {
-                    const { username } = await locals.pb.collection("users").update(locals.user.id, { username: data.username });
+                    const { username } = await locals.pb.collection("users").update(locals.user.id, { username: data.username }, {
+                        headers: {
+                            "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                        }
+                    });
                     locals.user.username = username;
                     return {
                         success: true,

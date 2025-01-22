@@ -1,4 +1,7 @@
 import type { Actions } from './$types';
+import { config } from "dotenv";
+
+config();
 
 export async function load({ parent }) {
     await parent();
@@ -21,7 +24,11 @@ export const actions = {
             } else {
                 data.delete("avatar");
             }
-            const { name, avatar } = await locals.pb.collection("users").update(locals.user?.id, data);
+            const { name, avatar } = await locals.pb.collection("users").update(locals.user?.id, data, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
 
             locals.user.name = name;
             locals.user.avatar = avatar;
