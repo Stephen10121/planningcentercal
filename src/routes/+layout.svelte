@@ -12,6 +12,7 @@
     import { Toaster } from "$lib/components/ui/sonner";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
     import { page } from "$app/stores";
+    import { onMount } from "svelte";
 
     export let data;
 
@@ -33,6 +34,12 @@
     }
 
     let logoutForm: HTMLFormElement;
+
+    onMount(async () => {
+        if ("serviceWorker" in navigator) {
+            await navigator.serviceWorker.register("/sw.js");
+        }
+    });
 </script>
 
 <svelte:window on:scroll={scrolling} />

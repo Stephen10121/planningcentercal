@@ -1,0 +1,9 @@
+{
+    "name": "EventLooker",
+    "theme_color": "#2563eb",
+    "background_color": "#ffffff",
+    "short_name": "EventLooker",
+    "id": "eventlookersg",
+    "description": "EventLooker connects to your planning center account and enables you to create custom calendars and share them across multiple devices.",
+    "start_url": "/"
+  }
