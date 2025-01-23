@@ -88,9 +88,6 @@
                     <DropdownMenu.Label>My Account</DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Group>
-                        <a href="/">
-                            <DropdownMenu.Item>Home Page</DropdownMenu.Item>
-                        </a>
                         <a href="/dashboard">
                             <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
                         </a>
@@ -98,32 +95,30 @@
                             <DropdownMenu.Item>My Calendars</DropdownMenu.Item>
                         </a>
                         <DropdownMenu.Separator />
-                        <a href="/settings/profile">
-                            <DropdownMenu.Item>Profile</DropdownMenu.Item>
-                        </a>
-                        {#if data.hasAccess}
-                            <a href={data.stripeBilling} target="_blank">
-                                <DropdownMenu.Item>Billing Portal</DropdownMenu.Item>
-                            </a>
-                        {:else}
-                            <a href="/settings/pricing">
-                                <DropdownMenu.Item>Pricing</DropdownMenu.Item>
-                            </a>
-                        {/if}
-                        <a href="/settings/account">
-                            <DropdownMenu.Item>Account</DropdownMenu.Item>
-                        </a>
-                        <a href="/settings/security">
-                            <DropdownMenu.Item>Security</DropdownMenu.Item>
-                        </a>
                     </DropdownMenu.Group>
-                    <DropdownMenu.Separator />
-                    <a href="https://github.com/Stephen10121" target="_blank">
-                        <DropdownMenu.Item>GitHub</DropdownMenu.Item>
-                    </a>
-                    <a href="https://buymeacoffee.com/stephen10121" target="_blank">
-                        <DropdownMenu.Item>Support</DropdownMenu.Item>
-                    </a>
+                    <DropdownMenu.Sub>
+                        <DropdownMenu.SubTrigger>Settings</DropdownMenu.SubTrigger>
+                        <DropdownMenu.SubContent>
+                            <a href="/settings/profile">
+                                <DropdownMenu.Item>Profile</DropdownMenu.Item>
+                            </a>
+                            {#if data.hasAccess}
+                                <a href={data.stripeBilling} target="_blank">
+                                    <DropdownMenu.Item>Billing Portal</DropdownMenu.Item>
+                                </a>
+                            {:else}
+                                <a href="/settings/pricing">
+                                    <DropdownMenu.Item>Pricing</DropdownMenu.Item>
+                                </a>
+                            {/if}
+                            <a href="/settings/account">
+                                <DropdownMenu.Item>Account</DropdownMenu.Item>
+                            </a>
+                            <a href="/settings/security">
+                                <DropdownMenu.Item>Security</DropdownMenu.Item>
+                            </a>
+                        </DropdownMenu.SubContent>
+                      </DropdownMenu.Sub>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Sub>
                         <DropdownMenu.SubTrigger>Theme</DropdownMenu.SubTrigger>
