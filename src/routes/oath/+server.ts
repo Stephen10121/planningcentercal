@@ -55,7 +55,11 @@ export async function GET({ locals, url, cookies }) {
         const res = await locals.pb.collection("users").authWithOAuth2Code(provider.name, code, expectedVerifier, redirectURL, {
             name: "New User",
         });
-        console.log({res});
+
+        // console.log({
+        //     res: JSON.stringify(res.meta?.rawUser)
+        // });
+
         cookies.set("pb_auth", locals.pb.authStore.exportToCookie().split(";")[0], {
             path: "/"
         })
