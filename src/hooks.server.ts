@@ -18,7 +18,7 @@ export async function handle ({ event, resolve }) {
             event.locals.pb.authStore.isValid && await event.locals.pb.collection('users').authRefresh();
 
             if (event.locals.pb.authStore.isValid) {
-                event.locals.user = serializeNonPOJOs(event.locals.pb.authStore.model);
+                event.locals.user = serializeNonPOJOs(event.locals.pb.authStore.record);
             } else {
                 event.locals.user = undefined;
             }

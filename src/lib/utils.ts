@@ -87,3 +87,24 @@ export const plans: Plan[] = [
 		duration: "/year"
 	}
 ];
+
+/**
+ * This function get the url that is passed and makes a fetch request to recieve the file. The function then returns the file in a blob format.
+ * @param fileLink 
+ * @returns Blob
+ */
+export async function fetchFileFromURL(fileLink: string): Promise<{error: false, blob: Blob} | {error: true, msg: unknown}> {
+	try {
+		const res = await fetch(fileLink);
+		const blob = await res.blob();
+		return {
+			error: false,
+			blob
+		}
+	} catch (err) {
+		return {
+			error: true,
+			msg: err
+		}
+	}
+}
