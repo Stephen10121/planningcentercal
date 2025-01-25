@@ -9,20 +9,20 @@
 
 	export let data;
 
-    let totalLogins = 0;
+    let totalVisits = 0;
     let calendarAmount = 0;
 
     if (data.calendars) {
         calendarAmount = data.calendars.length;
         for (let i=0;i<data.calendars.length;i++) {
-            totalLogins += data.calendars[i].logins;
+            totalVisits += data.calendars[i].visits;
         }
     }
 
     let calendars: RecordModel[] | undefined = data.calendars;
     if (calendars) {
         calendars.sort((a, b) => {
-            return b.logins - a.logins
+            return b.visits - a.visits
         });
     }
 </script>
@@ -46,17 +46,16 @@
                 </Tabs.List>
                 <Tabs.Content value="overview" class="space-y-4">
                     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <!-- <TotalLoginsCard logins={data.user.logins} /> -->
                         <Card.Root>
                             <Card.Header
                                 class="flex flex-row items-center justify-between space-y-0 pb-2"
                             >
-                                <Card.Title class="text-sm font-medium">Total Calendar Logins</Card.Title>
+                                <Card.Title class="text-sm font-medium">Total Calendar Visits</Card.Title>
                                 <Users class="h-4 w-4 text-muted-foreground" />
                             </Card.Header>
                             <Card.Content>
-                                <div class="text-2xl font-bold">{totalLogins}</div>
-                                <p class="text-xs text-muted-foreground">Logins with your Calendars.</p>
+                                <div class="text-2xl font-bold">{totalVisits}</div>
+                                <p class="text-xs text-muted-foreground">Visits for your Calendars.</p>
                             </Card.Content>
                         </Card.Root>
                         <Card.Root>
@@ -89,7 +88,7 @@
                                                 </Avatar.Root>
                                                 <div class="ml-4 space-y-1">
                                                     <p class="text-sm font-medium leading-none">{calendar.name}</p>
-                                                    <p class="text-muted-foreground text-sm">{calendar.logins} login{calendar.logins !== 1 ? "s" : ""}.</p>
+                                                    <p class="text-muted-foreground text-sm">{calendar.visits} visit{calendar.visits !== 1 ? "s" : ""}.</p>
                                                 </div>
                                                 <Button variant="secondary" class="ml-auto text-xs p-2 h-7" size="sm" href="/mycalendars/{calendar.id}">
                                                     More Info

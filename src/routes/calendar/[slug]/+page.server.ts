@@ -40,6 +40,18 @@ export async function load({ params, locals, cookies }) {
         }
 
         const dataJSON = await data.json() as EventData[];
+
+        try {
+            await locals.pb.collection('calendar').update(calendar.id, { 
+                visits: calendar.visits + 1
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
+        } catch (err) {
+            console.log("Failed to update the visits", err);
+        }
         
         return {
             newData: dataJSON,
