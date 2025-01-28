@@ -17,6 +17,10 @@ export async function load({ locals, params }) {
         return redirect(301, "/");
     }
 
+    if (!calendar.password) {
+        return redirect(301, `/calendar/${params.slug}`);
+    }
+
     return {
         name: calendar.name,
         id: calendar.id,
