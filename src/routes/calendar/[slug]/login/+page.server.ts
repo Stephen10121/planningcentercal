@@ -13,7 +13,7 @@ export async function load({ locals, params }) {
             }
         });
     } catch (err) {
-        console.log("Calendar not found.");
+        console.log(`[server] Calendar not found: '${params.slug}'.`);
         return redirect(301, "/");
     }
 
