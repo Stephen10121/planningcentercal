@@ -82,13 +82,27 @@ export async function GET({ locals, url, cookies }) {
 
     const newUserRecord = locals.pb.authStore.record;
     if (newUserRecord && res.meta) {
+        const in89Days = new Date(new Date().setDate((new Date()).getDate() + 89));
         if (newUserRecord.new) {
             const fileResp = await fetchFileFromURL(res.meta.avatarUrl);
             
             await locals.pb.collection("users").update(newUserRecord.id, {
                 new: false,
                 avatar: fileResp.error ? null : fileResp.blob,
-                name: res.meta.name ? res.meta.name : "New User"
+                name: res.meta.name ? res.meta.name : "New User",
+                authToken: res.meta.accessToken,
+                refreshToken: res.meta.refreshToken,
+                refreshTokenExpires: in89Days
+            }, {
+                headers: {
+                    "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
+                }
+            });
+        } else {
+            await locals.pb.collection("users").update(newUserRecord.id, {
+                authToken: res.meta.accessToken,
+                refreshToken: res.meta.refreshToken,
+                refreshTokenExpires: in89Days
             }, {
                 headers: {
                     "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
