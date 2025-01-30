@@ -52,6 +52,13 @@ export const actions = {
             path: "/"
         });
 
-        return redirect(302, authProviderRedirect);
+        const url2 = new URL(authProviderRedirect);
+        const params = url2.searchParams;
+        params.set("scope", "calendar people");
+        url2.search = params.toString();
+
+        const newUrl = url2.toString();
+
+        return redirect(302, newUrl);
     }
 };
