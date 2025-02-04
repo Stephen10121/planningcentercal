@@ -99,9 +99,15 @@
         font-family: sans-serif;
         color: #8AB4F4;
         font-weight: 700;
-        font-size: clamp(0.9rem, 0rem + 1.4vw, 1.25rem);
+        font-size: 0.9rem;
         pointer-events: none;
         display: block;
+    }
+
+    @media screen and (min-width: 480px) {
+        .name {
+            font-size: 1.25rem;
+        }
     }
 
     .lighter {

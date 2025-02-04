@@ -25,7 +25,6 @@ export async function load({ params, locals, cookies }) {
     }
 
     const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
-
     try {
         const data = await fetch(`${process.env.VITE_PB_URL}/events`, {
             headers: { 'Authorization': `Basic ${credentials}` }
