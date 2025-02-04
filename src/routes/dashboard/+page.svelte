@@ -71,7 +71,7 @@
                             </Card.Content>
                         </Card.Root>
                     </div>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                         <Card.Root class="col-span-4">
                             <Card.Header>
                                 <Card.Title>Most popular</Card.Title>
