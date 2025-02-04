@@ -4,7 +4,7 @@ import type { RecordModel } from 'pocketbase';
 
 config();
 
-export async function load({ locals }) {
+export async function load({ locals, url }) {
     if (locals.user) {
         try {
             const user = await locals.pb.collection("users").getOne(locals.user.id, {
@@ -34,12 +34,16 @@ export async function load({ locals }) {
                 avatar: locals.pb.files.getURL(user, user.avatar),
                 hasAccess: user.hasAccess,
                 stripeBilling: process.env.BILLING_STRIPE_LINK,
-                calendars: newRecords
+                calendars: newRecords,
+                pathname: url.pathname
             }
         } catch (err) {
             console.log(err);
 
             throw redirect(303, "/logout");
         }
+    }
+    return {
+        pathname: url.pathname
     }
 }
