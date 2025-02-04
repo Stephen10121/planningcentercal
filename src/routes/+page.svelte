@@ -77,8 +77,8 @@
     }
 
     :global(body) {
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
 
     header {
