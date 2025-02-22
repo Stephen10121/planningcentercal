@@ -6,6 +6,7 @@ import { config } from "dotenv";
 config();
 
 export async function POST({ request, locals }) {
+    console.log("[server] Someone just subscribed to a plan.");
     if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
         console.error("STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET env var is not set.");
         return json({msg: "not ok"}, { status: 500 });
@@ -13,14 +14,10 @@ export async function POST({ request, locals }) {
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-    console.log("hello");
     const body = await request.text();
-    console.log("yellow");
     const signature = request.headers.get('stripe-signature') || "";
 
     let event;
-
-    console.log({ body, signature, secret: process.env.STRIPE_WEBHOOK_SECRET})
     try {
         event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
@@ -67,6 +64,24 @@ export async function POST({ request, locals }) {
                     }
                 });
 
+                const userSubscribedResp = await fetch(process.env.VITE_PB_URL + "/userSubscribed", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "accessToken": user.authToken,
+                        "id": user.id
+                    })
+                });
+
+                if (userSubscribedResp.ok) {
+                    const userSubscribedRespJSON = await userSubscribedResp.json();
+                    console.log(userSubscribedRespJSON);
+                } else {
+                    console.log(userSubscribedResp.status);
+                }
+
                 break
             }
         case "customer.subscription.deleted": {
@@ -93,7 +108,7 @@ export async function POST({ request, locals }) {
         }
         }
     } catch (err) {
-
+        console.log("[server] Error in the user subscription endpoint.", err);
     }
 
     return json({msg: "ok"});
