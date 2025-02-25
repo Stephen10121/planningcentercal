@@ -23,11 +23,10 @@ export async function load({ params, locals, cookies }) {
             return redirect(301, `/calendar/${params.slug}/login`);
         }
     }
-
-    const credentials = btoa(`${process.env.APP_ID}:${process.env.APP_SECRET}`);
+    
     try {
         const data = await fetch(`${process.env.VITE_PB_URL}/events`, {
-            headers: { 'Authorization': `Basic ${credentials}` }
+            headers: { 'Authorization': `Basic ${process.env.CREDENTIALS}` }
         });
 
         if (!data.ok) {
