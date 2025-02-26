@@ -32,11 +32,13 @@
         width: 100%;
         height: 100%;
         display: grid;
-        grid-template-rows: 80px auto;
+        grid-template-rows: var(--headerHeight, 80px) auto;
     }
 
     section:not(.today) {
-        border-left: 1px dashed #202020;
+        border-left-width: var(--daySeparatorLineWidth, 1px);
+        border-left-style: var(--daySeparatorLineStyle, dashed);
+        border-left-color: var(--daySeparatorLineColor, #202020);
     }
 
     .day {
@@ -44,8 +46,8 @@
         align-items: center;
         justify-content: center;
         gap: 5px;
-        background-color: #212121;
-        box-shadow: 0px 8px 18px -18px rgb(0, 0, 0);
+        background-color: var(--headerColor, #212121);
+        box-shadow: var(--headerBoxShadow, 0px 8px 18px -18px rgb(0, 0, 0));
     }
 
     .times {
@@ -58,10 +60,10 @@
     h2 {
         font-family: "Zona Pro";
         font-weight: bold;
-        color: #ffffff;
-        font-size: 2rem;
-        width: 2.5rem;
-        height: 2.5rem;
+        color: var(--dayTextColor, #ffffff);
+        font-size: var(--dayOfWeekSize, 2rem);
+        width: calc(var(--dayOfWeekSize, 2rem) + var(--dayOfWeekSize, 2rem) / 4);
+        height: calc(var(--dayOfWeekSize, 2rem) + var(--dayOfWeekSize, 2rem) / 4);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -77,7 +79,7 @@
     }
 
     section.today .day div {
-        background-color: #8AB4F4;
+        background-color: var(--selectedDayTextColor, #8AB4F4);
     }
 
     section.today .day h2 {
@@ -85,13 +87,13 @@
     }
 
     section.today .day p {
-        color: #8AB4F4;
+        color: var(--selectedDayTextColor, #8AB4F4);
     }
 
     p {
         font-family: "Zona Pro";
         font-weight: bold;
-        color: #ffffff;
-        font-size: 1.5rem;
+        color: var(--dayTextColor, #ffffff);
+        font-size: calc(var(--dayOfWeekSize, 2rem) / 4 * 3);
     }
 </style>

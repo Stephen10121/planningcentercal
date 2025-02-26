@@ -22,7 +22,7 @@
     p {
         font-family: "Zona Pro";
         color: #353535;
-        font-size: 0.6rem;
+        font-size: var(--tagFontSize, 0.6rem);
         font-weight: 600;
         display: inline;
     }

@@ -11,13 +11,30 @@
     import { Switch } from "$lib/components/ui/switch/index.js";
     import { toast } from "svelte-sonner";
     import { enhance } from "$app/forms";
+    import { Textarea } from "$lib/components/ui/textarea";
+    import Calendar from "$lib/Calendar.svelte";
 
 	export let data;
     export let form;
 
     let linkToAvatar = data.logoLink;
     let name = data.name;
-    let password = "*".repeat(data.passwordlen);
+    let theme = data.style;
+    let customTheme = JSON.stringify(data.customStyle);
+    let customThemeJSON = parseCustomTheme();
+
+    function parseCustomTheme() {
+        try {
+            return JSON.parse(customTheme) as {[key: string]: any};
+        } catch (_) {
+            return {} as {[key: string]: any}
+        }
+    }
+
+    $: {
+        customTheme;
+        customThemeJSON = parseCustomTheme();
+    }
 
     let creatingCalendar: string | number | undefined = undefined;
 
@@ -71,8 +88,9 @@
 </svelte:head>
 
 {#if data.user}
-    <div class="flex items-center justify-center px-24 mt-20 w-full relative">
-        <a class="flex items-center gap-2 underline absolute top-5 left-3 px-1 h-5" href="/mycalendars">All Calendars</a>
+    <section>
+    <div class="px-5 py-1 w-full h-full overflow-auto relative">
+        <a class="flex items-center gap-2 underline absolute top-1 left-1 px-1 h-5" href="/mycalendars">Go Back</a>
         <form
             method="POST"
             id="updateCalendar"
@@ -81,7 +99,7 @@
             use:enhance={enhancedForm}>
         </form>
         <div>
-            <div class="flex flex-col mt-10 gap-10 px-2 w-full mx-auto">
+            <div class="flex flex-col mt-2 gap-10 w-full mx-auto">
                 <div class="w-fit mx-auto">
                     <label for="logo" class="relative cursor-pointer w-72 h-72" title="Change Logo">
                         <Avatar.Root class="w-64 h-64 border-2">
@@ -97,7 +115,7 @@
                 <div class="flex flex-col gap-3">
                     <div class="grid w-full max-w-sm items-center gap-1.5">
                         <Label for="name">Name</Label>
-                        <Input form="updateCalendar" type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" class="max-w-xs" />
+                        <Input form="updateCalendar" type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" />
                     </div>
                     <div class="flex items-center justify-between space-x-2 mt-2">
                         <Label for="use-password">Use Password</Label>
@@ -136,9 +154,133 @@
                             </Dialog.Content>
                         </Dialog.Root>
                     {/if}
+                    <div>
+                        <Label>Theme</Label>
+                        <div class="tabs">
+                            <label title="Choose Theme"><input form="updateCalendar" type="radio" name="style" class="sr-only" value="LIGHT" bind:group={theme} checked={theme=="LIGHT"} /><p>Light</p></label>
+                            <label title="Choose Theme"><input form="updateCalendar" type="radio" name="style" class="sr-only" value="DARK" bind:group={theme} checked={theme=="DARK"} /><p>Dark</p></label>
+                            <label title="Choose Theme"><input form="updateCalendar" type="radio" name="style" class="sr-only" value="CUSTOM" bind:group={theme} checked={theme=="CUSTOM"} /><p>Custom</p></label>
+                        </div>
+                    </div>
+                    <div class="grid w-full max-w-sm items-center gap-1.5">
+                        <Label for="customStyle">Custom Styling (Beta)</Label>
+                        <Textarea form="updateCalendar" autocomplete="off" id='customStyle' bind:value={customTheme} name="customStyle" />
+                    </div>
                     <Button form="updateCalendar" class="mt-4" type="submit">Update Calendar</Button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="liveCal border-l">
+        <div class="browser border-2">
+            <div class="tab border-t-2 border-l-2 border-r-2">
+                <Avatar.Root class="h-6 w-6">
+                    <Avatar.Image src={linkToAvatar} alt="Logo"/>
+                    <Avatar.Fallback>{data.user.name[0]}</Avatar.Fallback>
+                </Avatar.Root>
+                <p>{name} | Preview</p>
+            </div>
+            <div class="window">
+                {#if data.events && theme && customTheme}
+                    <Calendar events={data.events} {theme} customTheme={customThemeJSON} />
+                {/if}
+            </div>
+        </div>
+    </div>
+    </section>
 {/if}
+
+<style>
+    .tabs {
+        background-color:#f4f4f5;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-radius:5px;
+        padding: 0 5px;
+        width: 100%;
+    }
+
+    .sr-only {
+        clip: rect(0 0 0 0); 
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap; 
+        width: 1px;
+    }
+
+    .tabs p {
+        cursor:pointer;
+        display:block;
+        color:#71717a;
+        font-size: .875rem;
+        font-weight: 600;
+        margin: 0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding: 5px;
+        border-radius: 5px;
+        width:100%;
+        background-color:#ffffff00;
+        transition:color 0.1s linear, background-color 0.1s linear;
+    }
+
+    .tabs input:checked + p {
+        background-color:#ffffff;
+        color:#000000;
+    }
+
+    .tabs label {
+        width:100%;
+        height:100%;
+        padding: 5px 0;
+    }
+    section {
+        width: 100%;
+        height: calc(100% - 5.3rem);
+        margin-top: 5.3rem;
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+    }
+
+    .liveCal {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .browser {
+        width: 100%;
+        height: calc(100% - 40px);
+        padding: 10px;
+        margin-top: 40px;
+        position: relative;
+        border-radius: 5px;
+    }
+
+    .tab {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        width: fit-content;
+        transform: translateY(-100%);
+        padding: 5px 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .tab p {
+        font-size: 0.9rem;
+    }
+
+    .window {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+</style>

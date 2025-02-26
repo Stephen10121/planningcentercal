@@ -2,6 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { PRICING_PAGE } from '$lib/constants.js';
 import type { RecordModel } from 'pocketbase';
+import type { EventData } from '$lib';
 
 export async function load({ params, locals }) {
     if (!locals.user) {
@@ -23,6 +24,20 @@ export async function load({ params, locals }) {
 
         if (calendar.owner !== locals.user?.id) return redirect(301, "/mycalendars");
 
+        const data = await fetch(`${process.env.VITE_PB_URL}/events`, {
+            headers: { 'Authorization': `Basic ${process.env.CREDENTIALS}` }
+        });
+
+        if (!data.ok) {
+            console.error('[error]', data);
+            return {
+                newData: null,
+                error: "Failed to fetch event data."
+            }
+        }
+
+        const dataJSON = await data.json() as EventData[];
+
         return {
             name: calendar.name,
             id: calendar.id,
@@ -30,7 +45,10 @@ export async function load({ params, locals }) {
             created: calendar.created,
             updated: calendar.updated,
             hasPassword: calendar.password.length > 0,
-            passwordlen: calendar.password.length as number
+            passwordlen: calendar.password.length as number,
+            style: calendar.style as "LIGHT" | "DARK" | "CUSTOM",
+            customStyle: calendar.customStyle as {[key: string]: any},
+            events: dataJSON
         }
     } catch (_err) {
         return redirect(301, "/mycalendars");

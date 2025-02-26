@@ -54,6 +54,8 @@ export async function load({ params, locals, cookies }) {
         return {
             newData: dataJSON,
             name: calendar.name,
+            style: calendar.style as "LIGHT" | "DARK" | "CUSTOM",
+            customStyle: calendar.customStyle as {[key: string]: any},
             logoLink: locals.pb.files.getURL(calendar, calendar.logo),
         }
     } catch (error) {
@@ -61,6 +63,8 @@ export async function load({ params, locals, cookies }) {
         return {
             newData: null,
             name: "",
+            style: "LIGHT" as "LIGHT" | "DARK" | "CUSTOM",
+            customStyle: {},
             error: "Failed to fetch events"
         }
     }

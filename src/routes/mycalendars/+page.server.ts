@@ -60,7 +60,25 @@ export const actions = {
                 "name": name,
                 "password": password,
                 "logo": logo,
-                "owner": locals.user.id
+                "owner": locals.user.id,
+                "style": "DARK",
+                "customStyle": `{
+            "backgroundColor": "#303030",
+            "headerColor": "#212121",
+            "dayTextColor": "#ffffff",
+            "dayOfWeekSize": "2rem",
+            "selectedDayTextColor": "#8AB4F4",
+            "headerHeight": "80px",
+            "headerBoxShadow": "0px 8px 18px -18px rgb(0, 0, 0)",
+            "daySeparatorLineWidth": "1px",
+            "daySeparatorLineStyle": "dashed",
+            "daySeparatorLineColor": "#202020",
+            "eventTitleColor": "#8AB4F4",
+            "eventTitleFontSize": "clamp(0.9rem, 0.6951rem + 0.6829vw, 1.25rem)",
+            "tagFontSize": "0.6rem",
+            "timeTextColor": "#fdfdfd",
+            "timeTextFontSize": "clamp(0.8rem, 0rem + 1.4vw, 1rem)"
+}`
             }, {
                 headers: {
                     "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
