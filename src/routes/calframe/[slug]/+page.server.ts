@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { PRICING_PAGE } from '$lib/constants.js';
 import type { EventData } from '$lib';
-import type { CalendarThemes } from '$lib/utils.js';
+import type { CalendarThemes, CustomTheme } from '$lib/utils.js';
 
 export async function load({ params, locals }) {
     if (!locals.user) {
@@ -39,7 +39,7 @@ export async function load({ params, locals }) {
 
         return {
             style: calendar.style as CalendarThemes,
-            customStyle: calendar.customStyle as {[key: string]: any},
+            customStyle: calendar.customStyle as CustomTheme,
             events: dataJSON
         }
     } catch (_err) {

@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import type { EventData } from "$lib";
 import { config } from "dotenv";
 import type { RecordModel } from 'pocketbase';
-import type { CalendarThemes } from '$lib/utils.js';
+import type { CalendarThemes, CustomTheme } from '$lib/utils.js';
 
 config();
 
@@ -56,7 +56,7 @@ export async function load({ params, locals, cookies }) {
             newData: dataJSON,
             name: calendar.name,
             style: calendar.style as CalendarThemes,
-            customStyle: calendar.customStyle as {[key: string]: any},
+            customStyle: calendar.customStyle as CustomTheme,
             logoLink: locals.pb.files.getURL(calendar, calendar.logo),
         }
     } catch (error) {
