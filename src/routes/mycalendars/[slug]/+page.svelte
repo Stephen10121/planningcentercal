@@ -1,20 +1,16 @@
 <script lang="ts">
+	import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
+    import ChangeThemeParams from "$lib/ChangeThemeParams.svelte";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
-	import {
-        Button,
-        buttonVariants
-    } from "$lib/components/ui/button/index.js";
     import * as Dialog from "$lib/components/ui/dialog/index.js";
+    import { Switch } from "$lib/components/ui/switch/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import Pencil from "lucide-svelte/icons/pencil";
-    import { Switch } from "$lib/components/ui/switch/index.js";
-    import { toast } from "svelte-sonner";
-    import { enhance } from "$app/forms";
-    import { Textarea } from "$lib/components/ui/textarea";
     import * as Resizable from "$lib/components/ui/resizable";
     import type { CustomTheme } from "$lib/utils.js";
-    import ChangeThemeParams from "$lib/ChangeThemeParams.svelte";
+    import Pencil from "lucide-svelte/icons/pencil";
+    import { toast } from "svelte-sonner";
+    import { enhance } from "$app/forms";
 
 	export let data;
     export let form;
@@ -66,11 +62,10 @@
     }
 
     function showPreview(event: Event) {
-        const target = event.target;
-        //@ts-ignore
+        const target = event.target as HTMLInputElement;
         const files = target.files;
 
-        if (files.length > 0) {
+        if (files && files.length > 0) {
             if (files[0].size > 5000000) {
                 toast.error("Error", { description: "This file is too large. Max: 5MB." });
                 return;
