@@ -108,3 +108,9 @@ export async function fetchFileFromURL(fileLink: string): Promise<{error: false,
 		}
 	}
 }
+
+export type CalendarThemes = "LIGHT" | "DARK" | "CUSTOM"
+
+export type CustomTheme = {
+	[key: string]: any
+}

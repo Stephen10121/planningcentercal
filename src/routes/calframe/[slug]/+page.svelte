@@ -1,18 +1,19 @@
 <script lang="ts">
     import Calendar from "$lib/Calendar.svelte";
+    import type { CalendarThemes, CustomTheme } from "$lib/utils.js";
     import { onMount } from "svelte";
 
     export let data;
-    let theme = data.style as "LIGHT" | "DARK" | "CUSTOM";
-    let customTheme = data.customStyle as {[key: string]: any};
+    let theme = data.style as CalendarThemes;
+    let customTheme = data.customStyle as CustomTheme;
 
-    function recieveParentMessage(event: MessageEvent<{theme: "LIGHT" | "DARK" | "CUSTOM", customThemeJSON: {[key: string]: any}}>) {
+    function recieveParentMessage(event: MessageEvent<{theme: CalendarThemes, customThemeJSON: CustomTheme}>) {
         try {
             theme = event.data.theme;
             customTheme = event.data.customThemeJSON;
         } catch (_err) {
-            theme = data.style as "LIGHT" | "DARK" | "CUSTOM";
-            customTheme = data.customStyle as {[key: string]: any};
+            theme = data.style as CalendarThemes;
+            customTheme = data.customStyle as CustomTheme;
         }
     }
 

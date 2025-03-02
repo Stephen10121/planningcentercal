@@ -3,10 +3,11 @@
     import type { EventData } from "$lib";
     import Day from "$lib/Day.svelte";
     import { onMount } from "svelte";
+    import type { CalendarThemes, CustomTheme } from "./utils";
 
     export let events: EventData[];
-    export let theme: "LIGHT" | "DARK" | "CUSTOM";
-    export let customTheme: {[key: string]: any};
+    export let theme: CalendarThemes;
+    export let customTheme: CustomTheme;
     let themeString = chooseStyle();
 
     $: {
@@ -17,7 +18,7 @@
 
     function chooseStyle() {
         let tempStyle = "";
-        const DARK_THEME: {[key: string]: any} = {
+        const DARK_THEME: CustomTheme = {
             backgroundColor: "#303030",
             headerColor: "#212121",
             dayTextColor: "#ffffff",

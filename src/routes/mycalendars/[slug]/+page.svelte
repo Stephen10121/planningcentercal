@@ -13,6 +13,7 @@
     import { enhance } from "$app/forms";
     import { Textarea } from "$lib/components/ui/textarea";
     import * as Resizable from "$lib/components/ui/resizable";
+    import type { CustomTheme } from "$lib/utils.js";
 
 	export let data;
     export let form;
@@ -25,9 +26,9 @@
 
     function parseCustomTheme() {
         try {
-            return JSON.parse(customTheme) as {[key: string]: any};
+            return JSON.parse(customTheme) as CustomTheme;
         } catch (_) {
-            return {} as {[key: string]: any}
+            return {} as CustomTheme
         }
     }
 
@@ -195,8 +196,11 @@
                         </div>
                         <div class="window">
                             {#if data.events && theme && customTheme}
-                                <iframe bind:this={frame} src="/calframe/{data.id}" title="description"></iframe>
-                                <!-- <Calendar events={data.events} {theme} customTheme={customThemeJSON} /> -->
+                                <iframe
+                                    bind:this={frame}
+                                    src="/calframe/{data.id}"
+                                    title="description"
+                                ></iframe>
                             {/if}
                         </div>
                     </div>

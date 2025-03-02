@@ -3,6 +3,7 @@ import type { Actions } from './$types';
 import { PRICING_PAGE } from '$lib/constants.js';
 import type { RecordModel } from 'pocketbase';
 import type { EventData } from '$lib';
+import type { CalendarThemes, CustomTheme } from '$lib/utils';
 
 export async function load({ params, locals }) {
     if (!locals.user) {
@@ -46,8 +47,8 @@ export async function load({ params, locals }) {
             updated: calendar.updated,
             hasPassword: calendar.password.length > 0,
             passwordlen: calendar.password.length as number,
-            style: calendar.style as "LIGHT" | "DARK" | "CUSTOM",
-            customStyle: calendar.customStyle as {[key: string]: any},
+            style: calendar.style as CalendarThemes,
+            customStyle: calendar.customStyle as CustomTheme,
             events: dataJSON
         }
     } catch (_err) {

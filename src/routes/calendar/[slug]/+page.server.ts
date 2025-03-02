@@ -2,6 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import type { EventData } from "$lib";
 import { config } from "dotenv";
 import type { RecordModel } from 'pocketbase';
+import type { CalendarThemes } from '$lib/utils.js';
 
 config();
 
@@ -54,7 +55,7 @@ export async function load({ params, locals, cookies }) {
         return {
             newData: dataJSON,
             name: calendar.name,
-            style: calendar.style as "LIGHT" | "DARK" | "CUSTOM",
+            style: calendar.style as CalendarThemes,
             customStyle: calendar.customStyle as {[key: string]: any},
             logoLink: locals.pb.files.getURL(calendar, calendar.logo),
         }
@@ -63,7 +64,7 @@ export async function load({ params, locals, cookies }) {
         return {
             newData: null,
             name: "",
-            style: "LIGHT" as "LIGHT" | "DARK" | "CUSTOM",
+            style: "LIGHT" as CalendarThemes,
             customStyle: {},
             error: "Failed to fetch events"
         }
