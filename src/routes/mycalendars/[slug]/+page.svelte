@@ -12,7 +12,6 @@
     import { toast } from "svelte-sonner";
     import { enhance } from "$app/forms";
     import { Textarea } from "$lib/components/ui/textarea";
-    import Calendar from "$lib/Calendar.svelte";
     import * as Resizable from "$lib/components/ui/resizable";
 
 	export let data;
@@ -99,7 +98,7 @@
 {#if data.user}
     <section>
         <Resizable.PaneGroup direction="horizontal">
-            <Resizable.Pane defaultSize={30}>
+            <Resizable.Pane defaultSize={25}>
                 <div class="px-5 py-1 w-full h-full overflow-auto relative">
                     <a class="flex items-center gap-2 underline absolute top-1 left-1 px-1 h-5" href="/mycalendars">Go Back</a>
                     <form
@@ -124,7 +123,7 @@
                                 <input form="updateCalendar" type="file" id="logo" name="logo" accept="image/png, image/jpeg, image/svg+xml, image/gif, image/webp" hidden on:change={showPreview} />
                             </div>
                             <div class="flex flex-col gap-3">
-                                <div class="grid w-full max-w-sm items-center gap-1.5">
+                                <div class="grid w-full items-center gap-1.5">
                                     <Label for="name">Name</Label>
                                     <Input form="updateCalendar" type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" />
                                 </div>
@@ -173,7 +172,7 @@
                                         <label title="Choose Theme"><input form="updateCalendar" type="radio" name="style" class="sr-only" value="CUSTOM" bind:group={theme} checked={theme=="CUSTOM"} /><p>Custom</p></label>
                                     </div>
                                 </div>
-                                <div class="grid w-full max-w-sm items-center gap-1.5">
+                                <div class="grid w-full items-center gap-1.5">
                                     <Label for="customStyle">Custom Styling (Beta)</Label>
                                     <Textarea form="updateCalendar" autocomplete="off" id='customStyle' bind:value={customTheme} name="customStyle" />
                                 </div>
