@@ -25,20 +25,6 @@ export async function load({ params, locals }) {
 
         if (calendar.owner !== locals.user?.id) return redirect(301, "/mycalendars");
 
-        const data = await fetch(`${process.env.VITE_PB_URL}/events`, {
-            headers: { 'Authorization': `Basic ${process.env.CREDENTIALS}` }
-        });
-
-        if (!data.ok) {
-            console.error('[error]', data);
-            return {
-                newData: null,
-                error: "Failed to fetch event data."
-            }
-        }
-
-        const dataJSON = await data.json() as EventData[];
-
         return {
             name: calendar.name,
             id: calendar.id,
@@ -48,8 +34,7 @@ export async function load({ params, locals }) {
             hasPassword: calendar.password.length > 0,
             passwordlen: calendar.password.length as number,
             style: calendar.style as CalendarThemes,
-            customStyle: calendar.customStyle as CustomTheme,
-            events: dataJSON
+            customStyle: calendar.customStyle as CustomTheme
         }
     } catch (_err) {
         return redirect(301, "/mycalendars");

@@ -7,7 +7,6 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import * as Resizable from "$lib/components/ui/resizable";
-    import type { CustomTheme } from "$lib/utils.js";
     import Pencil from "lucide-svelte/icons/pencil";
     import { toast } from "svelte-sonner";
     import { enhance } from "$app/forms";
@@ -18,21 +17,7 @@
     let linkToAvatar = data.logoLink;
     let name = data.name;
     let theme = data.style;
-    let customTheme = JSON.stringify(data.customStyle);
-    let customThemeJSON = parseCustomTheme();
-
-    function parseCustomTheme() {
-        try {
-            return JSON.parse(customTheme) as CustomTheme;
-        } catch (_) {
-            return {} as CustomTheme
-        }
-    }
-
-    $: {
-        customTheme;
-        customThemeJSON = parseCustomTheme();
-    }
+    let customThemeJSON = data.customStyle;
 
     $: {
         if (frame !== undefined) {
@@ -161,7 +146,7 @@
                                         </Dialog.Content>
                                     </Dialog.Root>
                                 {/if}
-                                <ChangeThemeParams bind:theme={theme} bind:customThemeText={customTheme} />
+                                <ChangeThemeParams bind:customThemeJSON={customThemeJSON} bind:theme={theme} />
                                 <Button form="updateCalendar" class="mt-4" type="submit">Update Calendar</Button>
                             </div>
                         </div>
@@ -180,13 +165,11 @@
                             <p>{name} | Preview</p>
                         </div>
                         <div class="window">
-                            {#if data.events && theme && customTheme}
-                                <iframe
-                                    bind:this={frame}
-                                    src="/calframe/{data.id}"
-                                    title="description"
-                                ></iframe>
-                            {/if}
+                            <iframe
+                                bind:this={frame}
+                                src="/calframe/{data.id}"
+                                title="description"
+                            ></iframe>
                         </div>
                     </div>
                 </div>

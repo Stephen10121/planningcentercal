@@ -112,5 +112,19 @@ export async function fetchFileFromURL(fileLink: string): Promise<{error: false,
 export type CalendarThemes = "LIGHT" | "DARK" | "CUSTOM"
 
 export type CustomTheme = {
+	backgroundColor: string
+	headerColor: string
+	dayTextColor: string
+	dayOfWeekSize: string,
+	headerHeight: string,
+	daySeparatorLineWidth: string,
+	eventBackgroundColor: string,
+	eventTitleColor: string,
+	eventTitleFontSize: string,
+	resourceTextColor: string,
+    resourceFontSize: string,
+	tagFontSize: string,
+	timeTextColor: string,
+	timeTextFontSize: string,
 	[key: string]: any
 }

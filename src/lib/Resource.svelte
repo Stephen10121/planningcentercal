@@ -9,15 +9,16 @@
 <style>
     p {
         font-family: "Zona Pro";
-        color: #ffffff;
-        font-size: 1rem;
+        color: var(--resourceTextColor, #ffffff);
+        font-size: var(--resourceFontSize, 1rem);
         font-weight: 600;
         display: inline;
         margin-left: 5px;
     }
 
     span {
-        color: #bdbdbd;
-        font-size: 0.95rem;
+        /* color: #bdbdbd; */
+        opacity: 0.7;
+        font-size: 0.95em;
     }
 </style>

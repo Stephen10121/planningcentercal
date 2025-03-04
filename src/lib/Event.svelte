@@ -69,7 +69,7 @@
     .inner {
         width: 100%;
         height: 100%;
-        background-color: #424242;
+        background-color: var(--eventBackgroundColor, #424242);
         border: 1px solid #0000002c;
         padding: 10px 10px 10px 10px;
         border-radius: 3px;
