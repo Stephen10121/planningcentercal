@@ -72,7 +72,7 @@
         background-color: var(--eventBackgroundColor, #424242);
         border: 1px solid #0000002c;
         padding: 10px 10px 10px 10px;
-        border-radius: 3px;
+        border-radius: var(--eventBorderRadius, 3px);
         position: relative;
         isolation: isolate;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

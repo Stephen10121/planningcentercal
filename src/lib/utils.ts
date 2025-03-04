@@ -119,6 +119,7 @@ export type CustomTheme = {
 	headerHeight: string,
 	daySeparatorLineWidth: string,
 	eventBackgroundColor: string,
+	eventBorderRadius: string,
 	eventTitleColor: string,
 	eventTitleFontSize: string,
 	resourceTextColor: string,

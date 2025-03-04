@@ -96,6 +96,11 @@
                     <input type="color" bind:value={customThemeJSON.eventBackgroundColor}>
                 </label>
                 <div class="bar"></div>
+                <label class="text">
+                    <Label>Border Radius</Label>
+                    <Input type="text" autocomplete="off" bind:value={customThemeJSON.eventBorderRadius} />
+                </label>
+                <div class="bar"></div>
                 <label class="colorPicker">
                     <Label>Title Color</Label>
                     <input type="color" bind:value={customThemeJSON.eventTitleColor}>
