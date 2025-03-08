@@ -6,7 +6,6 @@
 
 <svelte:head>
     <title>{data.name}</title>
-    <link rel="icon" href={data.logoLink} />
 </svelte:head>
 
 {#if data.newData}

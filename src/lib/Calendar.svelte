@@ -4,7 +4,6 @@
     import Day from "$lib/Day.svelte";
     import { onMount } from "svelte";
     import type { CalendarThemes, CustomTheme } from "./utils";
-    import Page from "../routes/+page.svelte";
 
     export let events: EventData[];
     export let theme: CalendarThemes;

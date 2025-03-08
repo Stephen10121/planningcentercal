@@ -82,7 +82,7 @@
         <Resizable.PaneGroup direction="horizontal">
             <Resizable.Pane defaultSize={25}>
                 <div class="px-5 py-1 w-full h-full overflow-auto relative">
-                    <a class="flex items-center gap-2 underline absolute top-1 left-1 px-1 h-5" href="/mycalendars">Go Back</a>
+                    <a class="flex items-center gap-2 underline absolute top-1 left-1 px-1 h-5" href="/mycalendars">My Calendars</a>
                     <form
                         method="POST"
                         id="updateCalendar"

@@ -3,6 +3,7 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import * as Accordion from "$lib/components/ui/accordion/index.js";
     import type { CalendarThemes, CustomTheme } from "./utils";
+    import LoadTemplate from "./LoadTemplate.svelte";
 
     export let customThemeJSON: CustomTheme;
     export let theme: CalendarThemes | undefined;
@@ -18,6 +19,9 @@
         <label title="Choose Theme"><input form="updateCalendar" type="radio" name="style" class="sr-only" value="CUSTOM" bind:group={theme} checked={theme=="CUSTOM"} /><p>Custom</p></label>
     </div>
 </div>
+{#if theme === "CUSTOM"}
+    <LoadTemplate />
+{/if}
 <Accordion.Root class="w-full" disabled={theme !== "CUSTOM"}>
     <Accordion.Item value="mainpagestyles">
         <Accordion.Trigger style="{theme !== "CUSTOM" ? 'opacity: 0.5;':''}">Main Page Styles</Accordion.Trigger>
