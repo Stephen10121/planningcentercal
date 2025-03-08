@@ -173,3 +173,25 @@ export const DARK_THEME: CustomTheme = {
 	timeTextColor: "#fdfdfd",
 	timeTextFontSize: "clamp(0.8rem, 0rem + 1.4vw, 1rem)"
 }
+
+export const CANDY_THEME: CustomTheme = {
+	"backgroundColor": "#fff4e9",
+	"headerColor": "#8d6b94",
+	"dayTextColor": "#f5f5f5",
+	"dayOfWeekSize": "2rem",
+	"selectedDayTextColor": "#fff4e9",
+	"headerHeight": "80px",
+	"headerBoxShadow": "0px 8px 18px -18px rgb(0, 0, 0)",
+	"daySeparatorLineWidth": "1px",
+	"daySeparatorLineStyle": "solid",
+	"daySeparatorLineColor": "#b185a7",
+	"eventTitleColor": "#fff4e9",
+	"eventTitleFontSize": "clamp(0.9rem, 0.6951rem + 0.6829vw, 1.25rem)",
+	"tagFontSize": "0.6rem",
+	"timeTextColor": "#000000",
+	"timeTextFontSize": "clamp(0.8rem, 0rem + 1.4vw, 1rem)",
+	"eventBackgroundColor": "#b185a7",
+	"resourceFontSize": "1rem",
+	"resourceTextColor": "#dbdbdb",
+	"eventBorderRadius": "15px"
+}

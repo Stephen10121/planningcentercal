@@ -2,21 +2,61 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import * as Popover from "$lib/components/ui/popover/index.js";
     import * as Select from "$lib/components/ui/select/index.js";
+    import { Label } from "$lib/components/ui/label/index.js";
+    import { Input } from "$lib/components/ui/input/index.js";
+    import { toast } from "svelte-sonner";
+    import { CANDY_THEME, DARK_THEME, LIGHT_THEME, type CustomTheme } from "./utils";
+
+    export let customThemeJSON: CustomTheme;
  
     const templates = [
         { value: "LIGHT", label: "Light Theme" },
         { value: "DARK", label: "Dark Theme" },
+        { value: "CANDY", label: "Candy Theme" },
         { value: "OTHER", label: "3rd party theme" }
     ];
 
-    let selectedTemplate: string;
+    let selectedTemplate: undefined | string;
+    let outsideURL = "";
+
+    async function loadOutsideTheme() {
+        if (outsideURL && outsideURL.length > 0) {
+            try {
+                const resp = await fetch(outsideURL);
+
+                if (resp.ok) {
+                    const respJSON = await resp.json();
+                    customThemeJSON = structuredClone(respJSON);
+
+                    toast.success("Success", { description: "Fetched the 3rd party theme!" });
+                } else {
+                    toast.error("Error", { description: "Failed to fetch 3rd party theme."});
+                }
+            } catch (err) {
+                console.log(err);
+                toast.error("Error", { description: "Failed to fetch 3rd party theme."});
+            }
+        } else {
+            toast.error("Error", { description: "Invalid link."});
+        }
+    }
+
+    function setTemplate(theme: string) {
+        if (theme === "LIGHT") {
+            customThemeJSON = structuredClone(LIGHT_THEME);
+        } else if (theme === "DARK") {
+            customThemeJSON = structuredClone(DARK_THEME);
+        } else if (theme === "CANDY") {
+            customThemeJSON = structuredClone(CANDY_THEME);
+        }
+    }
 
     $: {
-        console.log(selectedTemplate)
+        if (selectedTemplate) setTemplate(selectedTemplate);
     }
 </script>
 
-<Popover.Root>
+<Popover.Root onOutsideClick={() => selectedTemplate = undefined}>
     <Popover.Trigger asChild let:builder>
       <Button builders={[builder]} variant="outline">Load Template</Button>
     </Popover.Trigger>
@@ -37,6 +77,11 @@
                 </Select.Content>
                 <Select.Input />
             </Select.Root>
+            {#if selectedTemplate === "OTHER"}
+                <Label>3rd party url</Label>
+                <Input bind:value={outsideURL} placeholder="e.g. https://website.com/cooltheme.json" />
+                <Button on:click={loadOutsideTheme}>Load</Button>
+            {/if}
         </section>
     </Popover.Content>
 </Popover.Root>

@@ -20,7 +20,7 @@
     </div>
 </div>
 {#if theme === "CUSTOM"}
-    <LoadTemplate />
+    <LoadTemplate bind:customThemeJSON={customThemeJSON} />
 {/if}
 <Accordion.Root class="w-full" disabled={theme !== "CUSTOM"}>
     <Accordion.Item value="mainpagestyles">
