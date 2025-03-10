@@ -58,8 +58,9 @@ export const actions = {
             data.delete("logo");
         }
 
+        let calendar: RecordModel;
         try {
-            await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`, {
+            calendar = await locals.pb.collection('calendar').getFirstListItem(`id='${params.slug}'&&owner='${locals.user.id}'`, {
                 headers: {
                     "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
                 }
@@ -69,7 +70,10 @@ export const actions = {
         }
 
         try {
-            await locals.pb.collection("calendar").update(params.slug, data, {
+            await locals.pb.collection("calendar").update(params.slug, {
+                ...data,
+                password: data.get("usePassword") === "true" ? calendar.password : ""
+            }, {
                 headers: {
                     "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
                 }
@@ -99,17 +103,22 @@ export const actions = {
             return { error: true, success: false, message: "Couldn't update Password." }
         }
 
-        let prevPassword = data.get("prevPassword");
         let newPassword = data.get("newPassword");
 
         if (!newPassword) {
             return { error: true, success: false, message: "Empty Fields." }
         }
 
-        console.log(data.get("prevPassword"), data.get("newPassword"), data.get("prevPassword") === calendar.password);
-        return { error: false, success: true, message: `Successfully updated Password.` }
+        let passwordStr = newPassword.toString();
+
+        if (passwordStr.length == 0) {
+            return { error: true, success: false, message: "Empty Fields." }
+        }
+
         try {
-            await locals.pb.collection("calendar").update(params.slug, data, {
+            await locals.pb.collection("calendar").update(calendar.id, {
+                password: passwordStr
+            }, {
                 headers: {
                     "Authorization": "Bearer " + process.env.POCKETBASE_TOKEN!
                 }

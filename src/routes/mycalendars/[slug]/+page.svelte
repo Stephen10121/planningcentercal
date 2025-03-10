@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
+	import { Button } from "$lib/components/ui/button/index.js";
     import ChangeThemeParams from "$lib/ChangeThemeParams.svelte";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
-    import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { Switch } from "$lib/components/ui/switch/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
@@ -10,6 +9,7 @@
     import Pencil from "lucide-svelte/icons/pencil";
     import { toast } from "svelte-sonner";
     import { enhance } from "$app/forms";
+    import SetCalendarPassword from "$lib/SetCalendarPassword.svelte";
 
 	export let data;
     export let form;
@@ -60,7 +60,7 @@
     }
 
     function enhancedForm() {
-        if (!creatingCalendar) creatingCalendar = toast.loading("Creating Calendar...");
+        if (!creatingCalendar) creatingCalendar = toast.loading("Updating Calendar...");
         //@ts-ignore
         return async ({ update }) => {
             dismissLoading();
@@ -110,41 +110,12 @@
                                     <Input form="updateCalendar" type="text" autocomplete="off" id='name' bind:value={name} name="name" placeholder="e.g. 'Bobs Calendar'" />
                                 </div>
                                 <div class="flex items-center justify-between space-x-2 mt-2">
-                                    <Label for="use-password">Use Password</Label>
-                                    <Switch id="use-password" bind:checked={usePassword} />
+                                    <Label for="usePassword">Use Password</Label>
+                                    <Switch id="usePassword" bind:checked={usePassword} />
+                                    <input type="hidden" name="usePassword" form="updateCalendar" bind:value={usePassword}>
                                 </div>
                                 {#if usePassword}
-                                    <Dialog.Root>
-                                        <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>{data.hasPassword ? "Change" : "Set"} Password</Dialog.Trigger>
-                                        <Dialog.Content class="sm:max-w-[425px]">
-                                        <Dialog.Header>
-                                            <Dialog.Title>{data.hasPassword ? "Change" : "Set"} Password</Dialog.Title>
-                                            <Dialog.Description>
-                                            Make changes to your password here. Click save when you're done.
-                                            </Dialog.Description>
-                                        </Dialog.Header>
-                                        <form
-                                            method="POST"
-                                            id="updatePassword"
-                                            action="?/updatePassword"
-                                            use:enhance={enhancedForm}
-                                        >
-                                            <div class="grid gap-4 py-4">
-                                                <div class="grid w-full max-w-sm items-center gap-1.5">
-                                                    <Label for="prevPassword">Previous Password</Label>
-                                                    <Input required type="password" autocomplete="off" name="prevPassword2" id='prevPassword' placeholder="Previous Password" />
-                                                </div>
-                                                <div class="grid w-full max-w-sm items-center gap-1.5">
-                                                    <Label for="newPassword">New Password</Label>
-                                                    <Input required type="password" autocomplete="off" name="newPassword" id='newPassword' placeholder="New Password" />
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <Dialog.Footer>
-                                            <Button type="submit" form="updatePassword">Save changes</Button>
-                                        </Dialog.Footer>
-                                        </Dialog.Content>
-                                    </Dialog.Root>
+                                    <SetCalendarPassword />
                                 {/if}
                                 <ChangeThemeParams bind:customThemeJSON={customThemeJSON} bind:theme={theme} />
                                 <Button form="updateCalendar" class="mt-4" type="submit">Update Calendar</Button>
