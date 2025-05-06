@@ -65,7 +65,7 @@
 </script>
 
 <svelte:head>
-    <title>Calendars | EventLooker</title>
+    <title>Calendars | TailorCal</title>
 </svelte:head>
 
 {#if data.user}

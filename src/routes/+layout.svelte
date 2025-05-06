@@ -50,13 +50,13 @@
             {#if !data.user}
                 <a href="/">
                     <h2 class="scroll-m-20 pb-2 text-3xl font-bold tracking-tight transition-colors first:mt-0">
-                        EventLooker
+                        TailorCal
                     </h2>
                 </a>
             {:else}
                 <a href="/dashboard">
                     <h2 class="scroll-m-20 pb-2 text-3xl font-bold tracking-tight transition-colors first:mt-0">
-                        EventLooker
+                        TailorCal
                     </h2>
                 </a>
             {/if}

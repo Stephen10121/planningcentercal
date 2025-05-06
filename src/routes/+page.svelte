@@ -5,11 +5,11 @@
 </script>
 
 <svelte:head>
-    <title>EventLooker | Home Page</title>
+    <title>TailorCal | Home Page</title>
 </svelte:head>
 
 <header>
-    <h2 class="poppins-semibold">EventLooker</h2>
+    <h2 class="poppins-semibold">TailorCal</h2>
     <form method="POST">
         <button type="submit" class="body18 gettingStartedButton">Get started</button>
     </form>
@@ -62,12 +62,12 @@
 
 <footer>
     <div class="bar"></div>
-    <h3 class="poppins-semibold">EventLooker</h3>
+    <h3 class="poppins-semibold">TailorCal</h3>
     <div class="links">
         <a href="/" class="bodybold18">Terms of use</a>
         <a href="/" class="bodybold18">Cookies policy</a>
         <a href="/" class="bodybold18">Privacy policy</a>
-        <p class="bodybold18">© EventLooker 2025</p>
+        <p class="bodybold18">© TailorCal 2025</p>
     </div>
 </footer>
 

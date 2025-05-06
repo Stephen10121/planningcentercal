@@ -28,7 +28,7 @@
 </script>
 
 <svelte:head>
-    <title>Dashboard | EventLooker</title>
+    <title>Dashboard | TailorCal</title>
 </svelte:head>
 
 {#if data.user}
