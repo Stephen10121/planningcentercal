@@ -5,4 +5,4 @@ Disallow: /cdn-cgi/
 Disallow: /dashboard/
 Disallow: /calendar/
 Disallow: /mycalendars/
-Sitemap: https://planningcenter.stephengruzin.dev/sitemap.xml
+Sitemap: https://tailorcal.com/sitemap.xml

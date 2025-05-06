@@ -23,7 +23,7 @@ export async function GET({ locals, url, cookies }) {
             redirectURL = url.origin + "/oath";
         }
     } else {
-        redirectURL = "https://planningcenter.stephengruzin.dev/oath";
+        redirectURL = process.env.VITE_WEBSITE_URL + "/oath";
     }
         
     const state = url.searchParams.get("state");

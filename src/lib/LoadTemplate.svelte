@@ -79,7 +79,7 @@
             </Select.Root>
             {#if selectedTemplate === "OTHER"}
                 <Label>3rd party url</Label>
-                <Input bind:value={outsideURL} placeholder="e.g. https://planningcenter.stephengruzin.dev/weirdTheme.json" />
+                <Input bind:value={outsideURL} placeholder="e.g. https://tailorcal.com/weirdTheme.json" />
                 <Button on:click={loadOutsideTheme}>Load</Button>
             {/if}
         </section>
