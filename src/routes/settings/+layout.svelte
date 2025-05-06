@@ -57,7 +57,7 @@
         column-gap: 1rem;
     }
 
-    :global(body) {
+    /* :global(body) {
         overflow-y: hidden;
-    }
+    } */
 </style>

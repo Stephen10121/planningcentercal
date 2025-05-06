@@ -45,7 +45,7 @@
 <svelte:window on:scroll={scrolling} />
 
 <RenderInSpecificPath pathname={data.pathname} dissalowedPaths={["/", "/calendar/*", "/calframe/*"]}>
-    <header class="{cl} border-b flex justify-between items-center w-screen px-32 py-5 fixed top-0 left-0 z-20 bg-white dark:bg-background">
+    <header class="{cl} border-b flex justify-between items-center w-screen px-8 lg:px-32 py-5 fixed top-0 left-0 z-20 bg-white dark:bg-background">
         <section class="flex item gap-2 items-center">
             {#if !data.user}
                 <a href="/">

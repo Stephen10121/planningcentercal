@@ -35,7 +35,7 @@ export const actions = {
                 redirectURL = url.origin + "/oath";
             }
         } else {
-            redirectURL = "https://planningcenter.stephengruzin.dev/oath";
+            redirectURL = process.env.VITE_WEBSITE_URL + "/oath";
         }
         
         const planningCenterAuthProvider = authMethods.oauth2.providers[0];

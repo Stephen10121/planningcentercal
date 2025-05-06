@@ -32,7 +32,7 @@
 </svelte:head>
 
 {#if data.user}
-    <div class="hidden flex-col md:flex px-24 mt-20">
+    <div class="flex-col md:flex lg:px-24 mt-20 overflow-y-auto">
         <div class="flex-1 space-y-4 p-8 pt-6">
             <div class="flex items-center justify-between space-y-2">
                 <h2 class="text-3xl font-bold tracking-tight">Hello {data.user.name}</h2>
@@ -45,7 +45,7 @@
                     <Tabs.Trigger value="notifications" disabled>Notifications</Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="overview" class="space-y-4">
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="grid gap-4 md:grid-cols-2">
                         <Card.Root>
                             <Card.Header
                                 class="flex flex-row items-center justify-between space-y-0 pb-2"
@@ -108,3 +108,9 @@
         </div>
     </div>
 {/if}
+
+<style>
+    :global(body) {
+        overflow-y: auto !important;
+    }
+</style>
